@@ -52,5 +52,11 @@ public class SimpleBiggerBackpack : Mod
             .MatchFrom("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 4)")
             .ReplaceBy("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 5)")
             .Save();
+        
+        // Add backpacks to the goods of the Osbrook tailor
+        Msl.LoadGML("gml_Object_o_npc_tailor_Create_0")
+            .MatchFrom("ds_list_add(selling_loot_object, 2689, 2.5, 2926, 2.5, 2931, 2.5, 3088, 2.5)")
+            .InsertBelow("ds_list_add(selling_loot_object, 2936, 2.5)") // backpack: inv_object = 2936
+            .Save();
     }
 }
