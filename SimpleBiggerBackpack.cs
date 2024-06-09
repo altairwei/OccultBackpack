@@ -13,7 +13,7 @@ public class SimpleBiggerBackpack : Mod
     public override string Author => "Altair Wei";
     public override string Name => "Simple Bigger Backpack";
     public override string Description => "Now the tailor of Osbrook will sell a bigger backpack.";
-    public override string Version => "1.0.0.0";
+    public override string Version => "1.0.0";
     public override string TargetVersion => "0.8.2.10";
 
     public override void PatchMod()
@@ -34,6 +34,23 @@ public class SimpleBiggerBackpack : Mod
         t_backpack.BoundingHeight = 81;
 
         // Make the Backpack hold more stuff
-        
+        UndertaleGameObject o_container_backpack = Msl.GetObject("o_container_backpack");
+        o_container_backpack.Sprite = Msl.GetSprite("s_container");
+        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
+            .MatchFrom("closeButton = scr_adaptiveCloseButtonCreate(id, (depth - 1), 121, 3)")
+            .ReplaceBy("closeButton = scr_adaptiveCloseButtonCreate(id, (depth - 1), 229, 3)")
+            .Save();
+        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
+            .MatchFrom("getbutton = scr_adaptiveTakeAllButtonCreate(id, (depth - 1), 122, 27)")
+            .ReplaceBy("getbutton = scr_adaptiveTakeAllButtonCreate(id, (depth - 1), 230, 27)")
+            .Save();
+        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
+            .MatchFrom("cellsRowSize = 3")
+            .ReplaceBy("cellsRowSize = 7")
+            .Save();
+        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
+            .MatchFrom("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 4)")
+            .ReplaceBy("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 5)")
+            .Save();
     }
 }
