@@ -20,7 +20,7 @@ I created the **Simple Bigger Backpack** because there was no similar [ModShardL
     - GOG : `C:\Games\Stoneshard`
 4. Rename `data.win` to `vanilla.win`.
 5. Place `ModShard.dll` in the game's folder.
-6. Download `SimpleBiggerBackpack.sml` and place it in ModShardLauncher's `Mods`  folder.
+6. Download [`SimpleBiggerBackpack.sml`](https://github.com/altairwei/SimpleBiggerBackpack/releases) and place it in ModShardLauncher's `Mods`  folder.
 7. Run `ModShardLauncher.exe` once again.
 8. Click on the **folder icon** at the top and select `vanilla.win`.
 9. Toggle **Simple Bigger Backpack** in the Mods tab.
