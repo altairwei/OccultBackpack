@@ -77,12 +77,12 @@ public class SimpleBiggerBackpack : Mod
         Msl.LoadGML("gml_GlobalScript_table_NPC_Lines").Apply(DialogLinesIterator).Save();
 
         // Change dialog to add a mini quest
+        Msl.AddFunction(ModFiles.GetCode("gml_GlobalScript_scr_npc_tailor_backpack_reward.gml"), "scr_npc_tailor_backpack_reward");
         Msl.LoadGML("gml_GlobalScript_scr_npc_lines_tailor_hub")
             .MatchAll()
             .ReplaceBy(ModFiles.GetCode("gml_GlobalScript_scr_npc_lines_tailor_hub.gml"))
             .Save();
 
-        Msl.AddFunction(ModFiles.GetCode("gml_GlobalScript_scr_npc_tailor_backpack_reward.gml").Peek(), "scr_npc_tailor_backpack_reward");
     }
 
     private static IEnumerable<string> QeustIterator(IEnumerable<string> input)
