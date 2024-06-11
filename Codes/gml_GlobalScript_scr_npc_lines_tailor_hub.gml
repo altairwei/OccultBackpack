@@ -3,7 +3,7 @@ function scr_npc_lines_tailor_hub() //gml_Script_scr_npc_lines_tailor_hub
     var _dialog = owner.questions_map
     with (owner)
         event_user_number = 9
-    var _story_adress_array = [-4, -4, -4]
+    var _story_adress_array = [-4, -4, -4, -4]
     switch line_story
     {
         case 1:
@@ -72,6 +72,7 @@ function scr_npc_lines_tailor_hub() //gml_Script_scr_npc_lines_tailor_hub
             _answer = [scr_player_answer("back")]
             _story_adress_array = [1]
             scr_back_to_hub()
+            // 这里有问题。玩家看不见裁缝的回话就领了背包，然后返回 hub 后还可以再次领一个背包。
             scr_quest_set_progress("makeBackpackOrmond", "makeBackpackOrmond_find", 1)
             scr_quest_set_complete("makeBackpackOrmond")
             event_user_number = 9

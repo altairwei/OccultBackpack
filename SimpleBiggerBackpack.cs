@@ -63,11 +63,13 @@ public class SimpleBiggerBackpack : Mod
         //    .InsertBelow("ds_list_add(selling_loot_object, 2936, 2.5)") // backpack: inv_object = 2936
         //    .Save();
 
-        // Init the mini quest of backpack making
+        // Init the mini quest of backpack making (only works in a new game save)
         Msl.LoadGML("gml_GlobalScript_scr_init_quests")
             .MatchFrom("scr_quest_init(\"fetchOrmond\", \"\", [\"fetchOrmond_find\", 1, \"fetchOrmond_desc\", []])")
             .InsertBelow("scr_quest_init(\"makeBackpackOrmond\", \"\", [\"makeBackpackOrmond_find\", 1, \"makeBackpackOrmond_desc\", []])")
             .Save();
+        
+        // Add quest name and description
         Msl.LoadGML("gml_GlobalScript_table_Quests_text").Apply(QeustIterator).Save();
 
         // Add dialogs to questions map
@@ -149,7 +151,7 @@ public class SimpleBiggerBackpack : Mod
             if(item.Contains(dialog_end))
             {
                 string newItem = item;
-                newItem = newItem.Insert(newItem.IndexOf(dialog_end), $"\"{tailor_backpack_pc}\",\"{tailor_backpack_quest}\",\"{tailor_making_backpack}\",");
+                newItem = newItem.Insert(newItem.IndexOf(dialog_end), $"\"{tailor_backpack_pc}\",\"{tailor_backpack_quest}\",\"{backpack_materials_collected}\",\"{tailor_making_backpack}\",");
                 yield return newItem;
             }
             else
