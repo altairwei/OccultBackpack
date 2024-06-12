@@ -76,13 +76,69 @@ public class SimpleBiggerBackpack : Mod
         Msl.LoadGML("gml_Object_o_npc_tailor_Alarm_1").MatchAll()
             .InsertBelow(ModFiles.GetCode("gml_Object_o_npc_tailor_Alarm_1.gml")).Save();
         // Add dialog texts
-        Msl.LoadGML("gml_GlobalScript_table_NPC_Lines").Apply(DialogLinesIterator).Save();
+        Msl.InjectTableDialogLocalization(
+            new LocalizationSentence(
+                "tailor_backpack_pc",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "How come you don't sell backpacks here?"},
+                    {ModLanguage.Chinese, "你这里怎么没有卖背包？"}
+                }
+            ),
+            new LocalizationSentence(
+                "tailor_backpack_inquiry",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, string.Join("#", new string[] {
+                        "A backpack? Ha ha ha ha. Who's going to buy a backpack when Osbrook is this big?",
+                        "The war is so chaotic right now, no one dares to travel far, so even more so, no one would buy one. ",
+                        "Aldor's traditional travelling backpacks are so big and bulky that they're not practical at all, and only those inexperienced rookies would buy them. I'm the one who won't make this rubbish."
+                    })},
+                    {ModLanguage.Chinese, string.Join("#", new string[] {
+                        "背包？哈哈哈哈。奥村就这么大点，谁会买背包啊？况且现在战争这么乱，谁也不敢出远门，更没人买了。",
+                        "奥尔多传统的旅行背包又大又笨重，根本不实用，只有那些没经验的菜鸟会买。我才会不会制作这种垃圾。"
+                    })}
+                }
+            ),
+            new LocalizationSentence(
+                "tailor_backpack_inquiry_pc",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "Does that mean you can make a small and functional backpack?"},
+                    {ModLanguage.Chinese, "那意思是你能制作一个小巧又实用的背包？"}
+                }
+            ),
+            new LocalizationSentence(
+                "tailor_backpack_quest",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, string.Join("#", new string[] {
+                        "Since you've asked, I must demonstrate my ancestral craft. But at the moment I don't have the right materials on hand.",
+                        "This way, you find a deer pelt, a bolt of cloth, and a spool of thread. I'll only charge you 50 craft fee to make you a deerskin backpack."
+                    })},
+                    {ModLanguage.Chinese, string.Join("#", new string[] {
+                        "既然你都这么问了，我必须展示祖传的手艺了。但目前我手上没有合适的材料。",
+                        "这样，你找到一张鹿皮，一卷布，以及一轴毛线。我只收你 50 冠手工费，给你制作一个鹿皮背包。"
+                    })}
+                }
+            ),
+            new LocalizationSentence(
+                "backpack_materials_collected",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "I've collected all the materials for making a backpack."},
+                    {ModLanguage.Chinese, "制作背包的材料我都收集好了。"}
+                }
+            ),
+            new LocalizationSentence(
+                "tailor_making_backpack",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "OK, backpacks will be ready for you in a minute."},
+                    {ModLanguage.Chinese, "行，马上就为你做好背包。"}
+                }
+            )
+        );
 
         // Change dialog to add a mini quest
         Msl.AddFunction(ModFiles.GetCode("gml_GlobalScript_scr_npc_tailor_backpack_reward.gml"), "scr_npc_tailor_backpack_reward");
-        Msl.LoadGML("gml_GlobalScript_scr_npc_lines_tailor_hub")
+        Msl.LoadGML("gml_GlobalScript_scr_npc_miniquest_item_tailor")
             .MatchAll()
-            .ReplaceBy(ModFiles.GetCode("gml_GlobalScript_scr_npc_lines_tailor_hub.gml"))
+            .ReplaceBy(ModFiles.GetCode("gml_GlobalScript_scr_npc_miniquest_item_tailor.gml"))
             .Save();
 
     }
@@ -119,46 +175,5 @@ public class SimpleBiggerBackpack : Mod
                 yield return item;
             }
         }
-    }
-
-    private static IEnumerable<string> DialogLinesIterator(IEnumerable<string> input)
-    {
-        string id = "tailor_backpack_pc";
-        string text_en = @"How come you don't sell backpacks here?";
-        string text_zh = @"你这里怎么没有卖背包？";
-        string tailor_backpack_pc = $"{id};any;tailor;any;;Osbrook;{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
-
-        id = "tailor_backpack_quest";
-        text_en = @"You guess?";
-        text_zh = @"你猜？";
-        string tailor_backpack_quest = $"{id};any;tailor;any;;Osbrook;{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
-
-        id = "backpack_materials_collected";
-        text_en = @"I've collected all the materials for making a backpack.";
-        text_zh = @"制作背包的材料我都收集好了。";
-        string backpack_materials_collected = $"{id};any;tailor;any;;Osbrook;{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
-
-        // 参考曼郡药师，出去一趟回来。
-        id = "tailor_making_backpack";
-        text_en = @"OK, backpacks will be ready for you in a minute.";
-        text_zh = @"行，马上就为你做好背包。";
-        string tailor_making_backpack = $"{id};any;tailor;any;;Osbrook;{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
-
-        string dialog_end = "\";;;;;;" + string.Concat(Enumerable.Repeat("// FOLLOWERS - MASTER;", 12)) + "\"";
-
-        foreach(string item in input)
-        {
-            if(item.Contains(dialog_end))
-            {
-                string newItem = item;
-                newItem = newItem.Insert(newItem.IndexOf(dialog_end), $"\"{tailor_backpack_pc}\",\"{tailor_backpack_quest}\",\"{backpack_materials_collected}\",\"{tailor_making_backpack}\",");
-                yield return newItem;
-            }
-            else
-            {
-                yield return item;
-            }
-        }
-
     }
 }
