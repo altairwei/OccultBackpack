@@ -22,41 +22,59 @@ public class SimpleBiggerBackpack : Mod
 
     public override void PatchMod()
     {
-        // Make the backpack only take up 2x3 space in your inventory
-        UndertaleSprite s_backpack = Msl.GetSprite("s_inv_travellersbackpack");
-        s_backpack.Width = 54;
-        s_backpack.Height = 81;
-        s_backpack.MarginLeft = 1;
-        s_backpack.MarginRight = 53;
-        s_backpack.MarginBottom = 80;
-        s_backpack.MarginTop = 1;
+        // Create Deerskin Backpack
+        UndertaleSprite s_deerskinbackpack = Msl.GetSprite("s_inv_deerskinbackpack");
+        s_deerskinbackpack.IsSpecialType = true;
+        s_deerskinbackpack.SVersion = 3;
+        s_deerskinbackpack.Width = 54;
+        s_deerskinbackpack.Height = 81;
+        s_deerskinbackpack.MarginLeft = 1;
+        s_deerskinbackpack.MarginRight = 53;
+        s_deerskinbackpack.MarginBottom = 80;
+        s_deerskinbackpack.MarginTop = 1;
 
-        UndertaleTexturePageItem t_backpack = s_backpack.Textures[0].Texture;
-        t_backpack.TargetX = 4;
-        t_backpack.TargetY = 2;
-        t_backpack.BoundingWidth = 54;
-        t_backpack.BoundingHeight = 81;
+        UndertaleGameObject o_inv_deerskinbackpack = Msl.AddObject(
+            name: "o_inv_deerskinbackpack",
+            spriteName: "s_inv_deerskinbackpack", 
+            parentName: "o_inv_backpack",
+            isVisible: true, 
+            isPersistent: true, 
+            isAwake: true
+        );
+
+        Msl.InjectTableItemLocalization(
+            oName: "deerskinbackpack",
+            dictName: new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "Deerskin Backpack"},
+                {ModLanguage.Chinese, "鹿皮背包"}
+            },
+            dictID: new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "A deerskin backpack that's smaller and holds more stuff."},
+                {ModLanguage.Chinese, "一个更加小巧能装更多的东西的鹿皮背包。"}
+            },
+            dictDescription: new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "The brainchild of the Osbrook tailor. While the style is similar to a traditional backpack, the deerskin backpack is more compact and can hold more."},
+                {ModLanguage.Chinese, "奥斯布鲁克裁缝的呕心沥血之作。虽然款式与传统背包差不多，但鹿皮背包更加小巧，能装更多的东西。"}
+            }
+        );
+
+        o_inv_deerskinbackpack.ApplyEvent(ModFiles, 
+            new MslEvent("gml_Object_o_inv_deerskinbackpack_Other_24.gml", EventType.Other, 24)
+        );
 
         // Make the Backpack hold more stuff
-        UndertaleGameObject o_container_backpack = Msl.GetObject("o_container_backpack");
-        o_container_backpack.Sprite = Msl.GetSprite("s_container");
-        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
-            .MatchFrom("closeButton = scr_adaptiveCloseButtonCreate(id, (depth - 1), 121, 3)")
-            .ReplaceBy("closeButton = scr_adaptiveCloseButtonCreate(id, (depth - 1), 229, 3)")
-            .Save();
-        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
-            .MatchFrom("getbutton = scr_adaptiveTakeAllButtonCreate(id, (depth - 1), 122, 27)")
-            .ReplaceBy("getbutton = scr_adaptiveTakeAllButtonCreate(id, (depth - 1), 230, 27)")
-            .Save();
-        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
-            .MatchFrom("cellsRowSize = 3")
-            .ReplaceBy("cellsRowSize = 7")
-            .Save();
-        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
-            .MatchFrom("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 4)")
-            .ReplaceBy("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 5)")
-            .Save();
-        
+        UndertaleGameObject o_container_deerskinbackpack = Msl.AddObject(
+            name: "o_container_deerskinbackpack",
+            spriteName: "s_container", 
+            parentName: "o_container_backpack",
+            isVisible: true, 
+            isAwake: true
+        );
+
+        o_container_deerskinbackpack.ApplyEvent(ModFiles, 
+            new MslEvent("gml_Object_o_container_deerskinbackpack_Other_10.gml", EventType.Other, 10)
+        );
+
         // Add backpacks to the goods of the Osbrook tailor
         //Msl.LoadGML("gml_Object_o_npc_tailor_Create_0")
         //    .MatchFrom("ds_list_add(selling_loot_object, 2689, 2.5, 2926, 2.5, 2931, 2.5, 3088, 2.5)")

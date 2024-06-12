@@ -9,7 +9,7 @@ function scr_npc_tailor_backpack_reward() //gml_Script_scr_npc_tailor_backpack_r
     else
     {
         with (scr_guiCreateContainer(global.guiBaseContainerVisible, o_reward_container))
-            scr_inventory_add_item(o_inv_backpack)
+            scr_inventory_add_item(o_inv_deerskinbackpack)
 
         scr_delete_item(o_inv_hide_deer)
         scr_delete_item(o_inv_cloth)
