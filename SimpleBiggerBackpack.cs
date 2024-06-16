@@ -24,51 +24,51 @@ public class SimpleBiggerBackpack : Mod
     {
         Msl.AddFunction(ModFiles.GetCode("scr_msl_debug.gml"), "scr_msl_debug");
 
-        // Create the container of Deerskin Backpack
-        UndertaleGameObject o_container_deerskinbackpack = Msl.AddObject(
-            name: "o_container_deerskinbackpack",
+        // Create the container of Backpack
+        UndertaleGameObject o_container_masterpiecebackpack = Msl.AddObject(
+            name: "o_container_masterpiecebackpack",
             spriteName: "s_container", 
             parentName: "o_container_backpack",
             isVisible: true, 
             isAwake: true
         );
 
-        o_container_deerskinbackpack.ApplyEvent(ModFiles, 
-            new MslEvent("gml_Object_o_container_deerskinbackpack_Other_10.gml", EventType.Other, 10)
+        o_container_masterpiecebackpack.ApplyEvent(ModFiles, 
+            new MslEvent("gml_Object_o_container_masterpiecebackpack_Other_10.gml", EventType.Other, 10)
         );
 
         int index = DataLoader.data.GameObjects.IndexOf(DataLoader.data.GameObjects.First(x => x.Name.Content == "o_container_backpack"));
         Msl.LoadGML("gml_GlobalScript_scr_adaptiveCloseButtonCreate")
             .MatchFrom($"                case {index}:")
-            .InsertBelow("                case o_container_deerskinbackpack:")
+            .InsertBelow("                case o_container_masterpiecebackpack:")
             .Save();
 
         Msl.LoadGML("gml_GlobalScript_scr_adaptiveTakeAllButtonCreate")
             .MatchFrom($"                case {index}:")
-            .InsertBelow("                case o_container_deerskinbackpack:")
+            .InsertBelow("                case o_container_masterpiecebackpack:")
             .Save();
 
         Msl.LoadGML("gml_GlobalScript_scr_adaptiveMenusGetOffset")
             .MatchFrom($"        case {index}:")
-            .InsertBelow("        case o_container_deerskinbackpack:")
+            .InsertBelow("        case o_container_masterpiecebackpack:")
             .Save();
 
         Msl.LoadGML("gml_Object_o_inv_slot_Mouse_4")
             .MatchFrom($"                    case {index}:")
-            .InsertBelow("                    case o_container_deerskinbackpack:")
+            .InsertBelow("                    case o_container_masterpiecebackpack:")
             .Save();
 
         Msl.LoadGML("gml_Object_o_inv_slot_Other_13")
             .MatchFrom($"                case {index}:")
-            .InsertBelow("                case o_container_deerskinbackpack:")
+            .InsertBelow("                case o_container_masterpiecebackpack:")
             .Save();
 
         /* Don't patch gml_GlobalScript_scr_adaptiveMenusPositionUpdate,
-         * I moved the relevant codes to gml_Object_o_container_deerskinbackpack_Other_10.gml
+         * I moved the relevant codes to gml_Object_o_container_masterpiecebackpack_Other_10.gml
         int index_o_container = DataLoader.data.GameObjects.IndexOf(DataLoader.data.GameObjects.First(x => x.Name.Content == "o_container"));
         Msl.LoadGML("gml_GlobalScript_scr_adaptiveMenusPositionUpdate")
             .MatchFrom($"        case {index_o_container}:")
-            .InsertBelow("        case o_container_deerskinbackpack:")
+            .InsertBelow("        case o_container_masterpiecebackpack:")
             .Save();
 
         // FIXME: Make Character Menu Crash!
@@ -90,68 +90,65 @@ public class SimpleBiggerBackpack : Mod
             .ReplaceBy("        if (argument0.is_open && (argument1.object_index == o_container_backpack || object_is_ancestor(argument1.object_index, o_container_backpack)))")
             .Save();
 
-        // Create Deerskin Backpack
-        UndertaleSprite s_deerskinbackpack = Msl.GetSprite("s_inv_deerskinbackpack");
-        s_deerskinbackpack.IsSpecialType = true;
-        s_deerskinbackpack.SVersion = 3;
-        s_deerskinbackpack.Width = 54;
-        s_deerskinbackpack.Height = 81;
-        s_deerskinbackpack.MarginLeft = 1;
-        s_deerskinbackpack.MarginRight = 53;
-        s_deerskinbackpack.MarginBottom = 80;
-        s_deerskinbackpack.MarginTop = 1;
+        // Create Backpack
+        UndertaleSprite s_masterpiecebackpack = Msl.GetSprite("s_inv_masterpiecebackpack");
+        s_masterpiecebackpack.IsSpecialType = true;
+        s_masterpiecebackpack.SVersion = 3;
+        s_masterpiecebackpack.Width = 54;
+        s_masterpiecebackpack.Height = 81;
+        s_masterpiecebackpack.MarginLeft = 1;
+        s_masterpiecebackpack.MarginRight = 53;
+        s_masterpiecebackpack.MarginBottom = 80;
+        s_masterpiecebackpack.MarginTop = 1;
 
-        UndertaleGameObject o_inv_deerskinbackpack = Msl.AddObject(
-            name: "o_inv_deerskinbackpack",
-            spriteName: "s_inv_deerskinbackpack", 
+        UndertaleGameObject o_inv_masterpiecebackpack = Msl.AddObject(
+            name: "o_inv_masterpiecebackpack",
+            spriteName: "s_inv_masterpiecebackpack", 
             parentName: "o_inv_backpack",
             isVisible: true, 
-            isPersistent: true, 
+            isPersistent: true,
             isAwake: true
         );
 
         Msl.InjectTableItemLocalization(
-            oName: "deerskinbackpack",
+            oName: "masterpiecebackpack",
             dictName: new Dictionary<ModLanguage, string>() {
-                {ModLanguage.English, "Deerskin Backpack"},
-                {ModLanguage.Chinese, "鹿皮背包"}
+                {ModLanguage.English, "Masterpiece Backpack"},
+                {ModLanguage.Chinese, "匠作背包"}
             },
             dictID: new Dictionary<ModLanguage, string>() {
-                {ModLanguage.English, "A deerskin backpack that's smaller and holds more stuff."},
-                {ModLanguage.Chinese, "一个更加小巧能装更多的东西的鹿皮背包。"}
+                {ModLanguage.English, "A exquisite backpack that's smaller and holds more stuff."},
+                {ModLanguage.Chinese, "一个更加小巧能装更多的东西的背包。"}
             },
             dictDescription: new Dictionary<ModLanguage, string>() {
-                {ModLanguage.English, "The brainchild of the Osbrook tailor. While the style is similar to a traditional backpack, the deerskin backpack is more compact and can hold more."},
-                {ModLanguage.Chinese, "奥斯布鲁克裁缝的呕心沥血之作。虽然款式与传统背包差不多，但鹿皮背包更加小巧，能装更多的东西。"}
+                {ModLanguage.English, "The masterpiece of the Osbrook tailor. While the style is similar to a traditional backpack, this one is more compact and can hold more."},
+                {ModLanguage.Chinese, "奥斯布鲁克裁缝的呕心沥血之作。虽然款式与传统背包差不多，但这个背包更加小巧，能装更多的东西。"}
             }
         );
 
-        o_inv_deerskinbackpack.ApplyEvent(ModFiles,
-            new MslEvent("gml_Object_o_inv_deerskinbackpack_Create_0.gml", EventType.Create, 0),
-            new MslEvent("gml_Object_o_inv_deerskinbackpack_Other_24.gml", EventType.Other, 24)
+        o_inv_masterpiecebackpack.ApplyEvent(ModFiles,
+            new MslEvent("gml_Object_o_inv_masterpiecebackpack_Create_0.gml", EventType.Create, 0),
+            new MslEvent("gml_Object_o_inv_masterpiecebackpack_Other_24.gml", EventType.Other, 24)
         );
 
-        // Create the loot object of Deerskin Backpack
-        UndertaleGameObject o_loot_deerskinbackpack = Msl.AddObject(
-            name: "o_loot_deerskinbackpack",
+        // Create the loot object of Backpack
+        UndertaleGameObject o_loot_masterpiecebackpack = Msl.AddObject(
+            name: "o_loot_masterpiecebackpack",
             spriteName: "s_loot_travellersbackpack", 
             parentName: "o_loot_backpack",
             isVisible: true, 
             isAwake: true
         );
 
-        o_loot_deerskinbackpack.ApplyEvent(ModFiles, 
-            new MslEvent("gml_Object_o_loot_deerskinbackpack_Create_0.gml", EventType.Create, 0)
+        o_loot_masterpiecebackpack.ApplyEvent(ModFiles, 
+            new MslEvent("gml_Object_o_loot_masterpiecebackpack_Create_0.gml", EventType.Create, 0)
         );
 
-        // Add the interaction between Deerskin Backpack and other items in the o_inv_slot
+        // Add the interaction between Backpack and other items in the o_inv_slot
+        // FIXME: We had to replace the entire file, otherwise it would have resulted in messed up lines of code
         Msl.LoadGML("gml_Object_o_inv_slot_Other_21")
-            .MatchFrom("        if (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_quiver_parent))")
-            .ReplaceBy("        if (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack) || object_is_ancestor(object_index, o_inv_quiver_parent))")
-            .Save();
-        Msl.LoadGML("gml_Object_o_inv_slot_Other_21")
-            .MatchFrom("        if (other.select && (!equipped) && mouse_check_button_pressed(mb_left) && (object_index == o_inv_backpack || (object_is_ancestor(object_index, o_inv_quiver_parent) && (other.object_index == contentType || object_is_ancestor(other.object_index, contentType)))))")
-            .ReplaceBy("        if (other.select && (!equipped) && mouse_check_button_pressed(mb_left) && ((object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack)) || (object_is_ancestor(object_index, o_inv_quiver_parent) && (other.object_index == contentType || object_is_ancestor(other.object_index, contentType)))))")
+            .MatchAll()
+            .ReplaceBy(ModFiles, "gml_Object_o_inv_slot_Other_21.gml")
             .Save();
 
         Msl.LoadGML("gml_GlobalScript_scr_gold_count")
@@ -172,14 +169,13 @@ public class SimpleBiggerBackpack : Mod
             .ReplaceBy("    if (owner.object_index != o_container_backpack && !object_is_ancestor(owner.object_index, o_container_backpack))")
             .Save();
 
+        // FIXME: We had to replace the entire file, otherwise it would have resulted in messed up lines of code
+        /*
         Msl.LoadGML("gml_GlobalScript_scr_notify")
-            .MatchFrom("                if ((!_is_quest) && object_index == o_inv_backpack)")
-            .ReplaceBy("                if ((!_is_quest) && (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack)))")
+            .MatchAll()
+            .ReplaceBy(ModFiles, "gml_GlobalScript_scr_notify.gml")
             .Save();
-        Msl.LoadGML("gml_GlobalScript_scr_notify")
-            .MatchFrom("                    if ((!_is_quest) && object_index == o_inv_backpack)")
-            .ReplaceBy("                    if ((!_is_quest) && (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack)))")
-            .Save();
+        */
 
         // Add backpacks to the goods of the Osbrook tailor
         //Msl.LoadGML("gml_Object_o_npc_tailor_Create_0")
@@ -234,11 +230,11 @@ public class SimpleBiggerBackpack : Mod
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
                         "Since you've asked, I must demonstrate my ancestral craft. But at the moment I don't have the right materials on hand.",
-                        "This way, you find a deer pelt, a bolt of cloth, and a spool of thread. I'll only charge you 50 craft fee to make you a deerskin backpack."
+                        "This way, you find a pelt, a bolt of cloth, and a spool of thread. I'll only charge you 50 craft fee to make you a exquisite backpack."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
                         "既然你都这么问了，我必须展示祖传的手艺了。但目前我手上没有合适的材料。",
-                        "这样，你找到一张鹿皮，一卷布，以及一轴毛线。我只收你 50 冠手工费，给你制作一个鹿皮背包。"
+                        "这样，你找到一张动物毛皮，一卷布，以及一轴毛线。我只收你 50 冠手工费，给你制作一个精致的背包。"
                     })}
                 }
             ),
@@ -275,13 +271,13 @@ public class SimpleBiggerBackpack : Mod
         string makeBackpackOrmond = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
 
         id = "makeBackpackOrmond_find";
-        text_en = @"Find a Dear Pelt, a Bolt of Cloth, and a Spool of Thread";
-        text_zh = @"寻找鹿皮、亚麻布和毛线";
+        text_en = @"Find a Pelt, a Bolt of Cloth, and a Spool of Thread";
+        text_zh = @"寻找毛皮、亚麻布和毛线";
         string makeBackpackOrmond_find = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
 
         id = "makeBackpackOrmond_desc";
-        text_en = @"Hold the Tailor from Osbrook doesn't sell backpacks, but is willing to help me make a new one. He asked me to get him a dear pelt, a bolt of cloth, and a spool of thread, plus fifty crowns for the craft.";
-        text_zh = @"奥斯布鲁克的裁缝霍特不卖背包，但愿意帮我制作一个新的。他让我给他弄一张鹿皮、一卷亚麻布和一轴毛线，再加上五十冠的手工费。";
+        text_en = @"Hold the Tailor from Osbrook doesn't sell backpacks, but is willing to help me make a new one. He asked me to get him a pelt, a bolt of cloth, and a spool of thread, plus fifty crowns for the craft.";
+        text_zh = @"奥斯布鲁克的裁缝霍特不卖背包，但愿意帮我制作一个新的。他让我给他弄一张毛皮、一卷亚麻布和一轴毛线，再加上五十冠的手工费。";
         string makeBackpackOrmond_desc = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
 
         string questend = "\";" + string.Concat(Enumerable.Repeat("text_end;", 12)) + "\"";

@@ -4,7 +4,7 @@ if (ds_list_size(list) == 0 && (!__is_undefined(_pregen_loot_list)))
 {
     if (!instance_exists(o_container_parent))
     {
-        with (scr_container_create(o_container_deerskinbackpack))
+        with (scr_container_create(o_container_masterpiecebackpack))
         {
             parent = other.id
             name = other.name
