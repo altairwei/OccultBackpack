@@ -14,7 +14,7 @@ using UndertaleModLib.Models;
 namespace SimpleBiggerBackpack;
 public class SimpleBiggerBackpack : Mod
 {
-    public override string Author => "Altair Wei";
+    public override string Author => "Altair";
     public override string Name => "Simple Bigger Backpack";
     public override string Description => "Now the tailor of Osbrook will sell a bigger backpack.";
     public override string Version => "1.0.0";
@@ -22,6 +22,74 @@ public class SimpleBiggerBackpack : Mod
 
     public override void PatchMod()
     {
+        Msl.AddFunction(ModFiles.GetCode("scr_msl_debug.gml"), "scr_msl_debug");
+
+        // Create the container of Deerskin Backpack
+        UndertaleGameObject o_container_deerskinbackpack = Msl.AddObject(
+            name: "o_container_deerskinbackpack",
+            spriteName: "s_container", 
+            parentName: "o_container_backpack",
+            isVisible: true, 
+            isAwake: true
+        );
+
+        o_container_deerskinbackpack.ApplyEvent(ModFiles, 
+            new MslEvent("gml_Object_o_container_deerskinbackpack_Other_10.gml", EventType.Other, 10)
+        );
+
+        int index = DataLoader.data.GameObjects.IndexOf(DataLoader.data.GameObjects.First(x => x.Name.Content == "o_container_backpack"));
+        Msl.LoadGML("gml_GlobalScript_scr_adaptiveCloseButtonCreate")
+            .MatchFrom($"                case {index}:")
+            .InsertBelow("                case o_container_deerskinbackpack:")
+            .Save();
+
+        Msl.LoadGML("gml_GlobalScript_scr_adaptiveTakeAllButtonCreate")
+            .MatchFrom($"                case {index}:")
+            .InsertBelow("                case o_container_deerskinbackpack:")
+            .Save();
+
+        Msl.LoadGML("gml_GlobalScript_scr_adaptiveMenusGetOffset")
+            .MatchFrom($"        case {index}:")
+            .InsertBelow("        case o_container_deerskinbackpack:")
+            .Save();
+
+        Msl.LoadGML("gml_Object_o_inv_slot_Mouse_4")
+            .MatchFrom($"                    case {index}:")
+            .InsertBelow("                    case o_container_deerskinbackpack:")
+            .Save();
+
+        Msl.LoadGML("gml_Object_o_inv_slot_Other_13")
+            .MatchFrom($"                case {index}:")
+            .InsertBelow("                case o_container_deerskinbackpack:")
+            .Save();
+
+        /* Don't patch gml_GlobalScript_scr_adaptiveMenusPositionUpdate,
+         * I moved the relevant codes to gml_Object_o_container_deerskinbackpack_Other_10.gml
+        int index_o_container = DataLoader.data.GameObjects.IndexOf(DataLoader.data.GameObjects.First(x => x.Name.Content == "o_container"));
+        Msl.LoadGML("gml_GlobalScript_scr_adaptiveMenusPositionUpdate")
+            .MatchFrom($"        case {index_o_container}:")
+            .InsertBelow("        case o_container_deerskinbackpack:")
+            .Save();
+
+        // FIXME: Make Character Menu Crash!
+        Msl.LoadGML("gml_GlobalScript_scr_adaptiveMenusPositionUpdate")
+            .MatchFrom("            scr_guiLayoutOffsetUpdate(id, ((-sprite_width) * (!active)))")
+            //.ReplaceBy("            scr_msl_debug(string(id) + \", \" + string(-sprite_width) + \" * \" + string(!active))")
+            .ReplaceBy("")
+            .Peek()
+            .Save();
+        */
+
+        Msl.LoadGML("gml_GlobalScript_scr_can_replace_item")
+            .MatchFrom("        if (argument0.is_open && argument1.owner.object_index == o_container_backpack)")
+            .ReplaceBy("        if (argument0.is_open && (argument1.owner.object_index == o_container_backpack || object_is_ancestor(argument1.owner.object_index, o_container_backpack)))")
+            .Save();
+
+        Msl.LoadGML("gml_GlobalScript_scr_can_replace_item")
+            .MatchFrom("        if (argument0.is_open && argument1.object_index == o_container_backpack)")
+            .ReplaceBy("        if (argument0.is_open && (argument1.object_index == o_container_backpack || object_is_ancestor(argument1.object_index, o_container_backpack)))")
+            .Save();
+
         // Create Deerskin Backpack
         UndertaleSprite s_deerskinbackpack = Msl.GetSprite("s_inv_deerskinbackpack");
         s_deerskinbackpack.IsSpecialType = true;
@@ -58,22 +126,60 @@ public class SimpleBiggerBackpack : Mod
             }
         );
 
-        o_inv_deerskinbackpack.ApplyEvent(ModFiles, 
+        o_inv_deerskinbackpack.ApplyEvent(ModFiles,
+            new MslEvent("gml_Object_o_inv_deerskinbackpack_Create_0.gml", EventType.Create, 0),
             new MslEvent("gml_Object_o_inv_deerskinbackpack_Other_24.gml", EventType.Other, 24)
         );
 
-        // Make the Backpack hold more stuff
-        UndertaleGameObject o_container_deerskinbackpack = Msl.AddObject(
-            name: "o_container_deerskinbackpack",
-            spriteName: "s_container", 
-            parentName: "o_container_backpack",
+        // Create the loot object of Deerskin Backpack
+        UndertaleGameObject o_loot_deerskinbackpack = Msl.AddObject(
+            name: "o_loot_deerskinbackpack",
+            spriteName: "s_loot_travellersbackpack", 
+            parentName: "o_loot_backpack",
             isVisible: true, 
             isAwake: true
         );
 
-        o_container_deerskinbackpack.ApplyEvent(ModFiles, 
-            new MslEvent("gml_Object_o_container_deerskinbackpack_Other_10.gml", EventType.Other, 10)
+        o_loot_deerskinbackpack.ApplyEvent(ModFiles, 
+            new MslEvent("gml_Object_o_loot_deerskinbackpack_Create_0.gml", EventType.Create, 0)
         );
+
+        // Add the interaction between Deerskin Backpack and other items in the o_inv_slot
+        Msl.LoadGML("gml_Object_o_inv_slot_Other_21")
+            .MatchFrom("        if (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_quiver_parent))")
+            .ReplaceBy("        if (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack) || object_is_ancestor(object_index, o_inv_quiver_parent))")
+            .Save();
+        Msl.LoadGML("gml_Object_o_inv_slot_Other_21")
+            .MatchFrom("        if (other.select && (!equipped) && mouse_check_button_pressed(mb_left) && (object_index == o_inv_backpack || (object_is_ancestor(object_index, o_inv_quiver_parent) && (other.object_index == contentType || object_is_ancestor(other.object_index, contentType)))))")
+            .ReplaceBy("        if (other.select && (!equipped) && mouse_check_button_pressed(mb_left) && ((object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack)) || (object_is_ancestor(object_index, o_inv_quiver_parent) && (other.object_index == contentType || object_is_ancestor(other.object_index, contentType)))))")
+            .Save();
+
+        Msl.LoadGML("gml_GlobalScript_scr_gold_count")
+            .MatchFrom("            if (owner.object_index == o_inventory || owner.object_index == o_container_backpack)")
+            .ReplaceBy("            if (owner.object_index == o_inventory || owner.object_index == o_container_backpack || object_is_ancestor(owner.object_index, o_container_backpack))")
+            .Save();
+        Msl.LoadGML("gml_GlobalScript_scr_gold_count")
+            .MatchFrom("            if (owner.object_index == o_inventory || owner.object_index == o_container_backpack)")
+            .ReplaceBy("            if (owner.object_index == o_inventory || owner.object_index == o_container_backpack || object_is_ancestor(owner.object_index, o_container_backpack))")
+            .Save();
+        Msl.LoadGML("gml_GlobalScript_scr_gold_count")
+            .MatchFrom("                if (owner.object_index == o_inventory || owner.object_index == o_container_backpack)")
+            .ReplaceBy("                if (owner.object_index == o_inventory || owner.object_index == o_container_backpack || object_is_ancestor(owner.object_index, o_container_backpack))")
+            .Save();
+
+        Msl.LoadGML("gml_Object_o_inv_slot_Destroy_0")
+            .MatchFrom("    if (owner.object_index != o_container_backpack)")
+            .ReplaceBy("    if (owner.object_index != o_container_backpack && !object_is_ancestor(owner.object_index, o_container_backpack))")
+            .Save();
+
+        Msl.LoadGML("gml_GlobalScript_scr_notify")
+            .MatchFrom("                if ((!_is_quest) && object_index == o_inv_backpack)")
+            .ReplaceBy("                if ((!_is_quest) && (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack)))")
+            .Save();
+        Msl.LoadGML("gml_GlobalScript_scr_notify")
+            .MatchFrom("                    if ((!_is_quest) && object_index == o_inv_backpack)")
+            .ReplaceBy("                    if ((!_is_quest) && (object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack)))")
+            .Save();
 
         // Add backpacks to the goods of the Osbrook tailor
         //Msl.LoadGML("gml_Object_o_npc_tailor_Create_0")
