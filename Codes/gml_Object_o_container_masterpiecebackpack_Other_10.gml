@@ -21,4 +21,4 @@ with (getbutton)
     owner = other.id
 cellsContainer = scr_guiCreateContainer(id, o_guiContainerEmpty, depth, adaptiveOffsetX, adaptiveOffsetY)
 cellsRowSize = 7
-scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 5)
+scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 6)

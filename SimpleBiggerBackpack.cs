@@ -27,7 +27,7 @@ public class SimpleBiggerBackpack : Mod
         // Create the container of Backpack
         UndertaleGameObject o_container_masterpiecebackpack = Msl.AddObject(
             name: "o_container_masterpiecebackpack",
-            spriteName: "s_container", 
+            spriteName: "s_container_masterpiecebackpack",
             parentName: "o_container_backpack",
             isVisible: true, 
             isAwake: true
@@ -118,7 +118,7 @@ public class SimpleBiggerBackpack : Mod
             },
             dictID: new Dictionary<ModLanguage, string>() {
                 {ModLanguage.English, "A exquisite backpack that's smaller and holds more stuff."},
-                {ModLanguage.Chinese, "一个更加小巧能装更多的东西的背包。"}
+                {ModLanguage.Chinese, "一个更加小巧，但能装更多东西的背包。"}
             },
             dictDescription: new Dictionary<ModLanguage, string>() {
                 {ModLanguage.English, "The masterpiece of the Osbrook tailor. While the style is similar to a traditional backpack, this one is more compact and can hold more."},
