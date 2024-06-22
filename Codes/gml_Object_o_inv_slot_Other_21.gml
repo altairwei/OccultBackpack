@@ -30,10 +30,11 @@ for (_i = 0; _i < _slotsMeetingListSize; _i++)
             other.draw_back = false
         if (other.select && (!equipped) && mouse_check_button_pressed(mb_left) && ((object_index == o_inv_backpack || object_is_ancestor(object_index, o_inv_backpack)) || (object_is_ancestor(object_index, o_inv_quiver_parent) && (other.object_index == contentType || object_is_ancestor(other.object_index, contentType)))))
         {
-            if instance_exists(o_side_inventory)
+            if (instance_exists(o_side_inventory) && o_side_inventory.parent != id)
                 return;
-            if (!instance_exists(o_container_parent))
+            if (!instance_exists(o_container_parent) || (object_index == o_inv_masterpiecebackpack && !instance_exists(o_stash_inventory)))
                 event_user(14)
+
             if is_open
             {
                 var _is_add = false
@@ -43,10 +44,25 @@ for (_i = 0; _i < _slotsMeetingListSize; _i++)
                     {
                         if scr_inventory_stack(o_container_parent.id, other.id)
                             _is_add = true
+                    } else if instance_exists(o_stash_inventory)
+                    {
+                        if scr_inventory_stack(o_stash_inventory.id, other.id)
+                            _is_add = true
                     }
                 }
-                else if scr_inventory_add(o_container_parent, other.id)
-                    _is_add = true
+                else
+                {
+                    if instance_exists(o_container_parent)
+                    {
+                        if scr_inventory_add(o_container_parent.id, other.id)
+                            _is_add = true
+                    } else if instance_exists(o_stash_inventory)
+                    {
+                        if scr_inventory_add(o_stash_inventory.id, other.id)
+                            _is_add = true
+                    }
+                }
+
                 if _is_add
                 {
                     other.select = false

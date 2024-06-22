@@ -1,14 +1,19 @@
-var is_open = false
+var can_open = false
 
 var list = ds_map_find_value(global.containersLootDataMap, "caravan_stash")
 if (!__is_undefined(list))
-    is_open = true
+    can_open = true
 
-if (is_open && (!instance_exists(o_container)) && (!instance_exists(o_stash_inventory)))
+if (can_open && (!instance_exists(o_container)))
 {
-    scr_actionsLog("searchBackpack", [scr_id_get_name(o_player), scr_actionsLogGetItemColorName(id)])
-    scr_load_container("caravan_stash")
-    scr_loadContainerContent(loot_list, o_stash_inventory)
+    if (!is_open)
+    {
+        scr_actionsLog("searchBackpack", [scr_id_get_name(o_player), scr_actionsLogGetItemColorName(id)])
+        scr_load_container("caravan_stash")
+        scr_loadContainerContent(loot_list, o_stash_inventory)
+        can_swap = false
+        is_open = true
+    }
 }
 else
 {

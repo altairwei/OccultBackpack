@@ -25,4 +25,14 @@ if (ds_list_size(list) == 0 && (!__is_undefined(_pregen_loot_list)))
     }
 }
 else
-    event_inherited()
+{
+    if (owner.object_index != o_trade_inventory && owner.object_index != o_stash_inventory)
+    {
+        if (!is_open)
+        {
+            var list = ds_map_find_value(data, "lootList")
+            scr_loadContainerContent(list, container_type)
+            is_open = true
+        }
+    }
+}

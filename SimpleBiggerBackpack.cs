@@ -81,17 +81,13 @@ public class SimpleBiggerBackpack : Mod
         */
 
         Msl.LoadGML("gml_GlobalScript_scr_can_replace_item")
-            .MatchFrom("        if (argument0.is_open && argument1.owner.object_index == o_container_backpack)")
-            .ReplaceBy("        if (argument0.is_open && (argument1.owner.object_index == o_container_backpack || object_is_ancestor(argument1.owner.object_index, o_container_backpack)))")
+            .MatchAll()
+            .ReplaceBy(ModFiles, "gml_GlobalScript_scr_can_replace_item.gml")
             .Save();
 
-        Msl.LoadGML("gml_GlobalScript_scr_can_replace_item")
-            .MatchFrom("        if (argument0.is_open && argument1.object_index == o_container_backpack)")
-            .ReplaceBy("        if (argument0.is_open && (argument1.object_index == o_container_backpack || object_is_ancestor(argument1.object_index, o_container_backpack)))")
-            .Save();
-
-        // Create Backpack
+        // Create the Masterpiece Backpack
         UndertaleSprite s_masterpiecebackpack = Msl.GetSprite("s_inv_masterpiecebackpack");
+        s_masterpiecebackpack.CollisionMasks.RemoveAt(0);
         s_masterpiecebackpack.IsSpecialType = true;
         s_masterpiecebackpack.SVersion = 3;
         s_masterpiecebackpack.Width = 54;
@@ -123,8 +119,8 @@ public class SimpleBiggerBackpack : Mod
         Msl.InjectTableItemLocalization(
             oName: "masterpiecebackpack",
             dictName: new Dictionary<ModLanguage, string>() {
-                {ModLanguage.English, "Masterpiece Backpack"},
-                {ModLanguage.Chinese, "匠作背包"}
+                {ModLanguage.English, "Tailor's Backpack"},
+                {ModLanguage.Chinese, "裁缝的背包"}
             },
             dictID: new Dictionary<ModLanguage, string>() {
                 {ModLanguage.English, "A exquisite backpack that's smaller and holds more stuff."},
@@ -189,6 +185,7 @@ public class SimpleBiggerBackpack : Mod
 
         // Create the Magic Backpack
         UndertaleSprite s_magicbackpack = Msl.GetSprite("s_inv_magicbackpack");
+        s_magicbackpack.CollisionMasks.RemoveAt(0);
         s_magicbackpack.IsSpecialType = true;
         s_magicbackpack.SVersion = 3;
         s_magicbackpack.Width = 54;
@@ -210,16 +207,16 @@ public class SimpleBiggerBackpack : Mod
         Msl.InjectTableItemLocalization(
             oName: "magicbackpack",
             dictName: new Dictionary<ModLanguage, string>() {
-                {ModLanguage.English, "Magic Backpack"},
-                {ModLanguage.Chinese, "魔法背包"}
+                {ModLanguage.English, "Occult Backpack"},
+                {ModLanguage.Chinese, "玄秘背包"}
             },
             dictID: new Dictionary<ModLanguage, string>() {
                 {ModLanguage.English, "A backpack that connects to a specific space."},
                 {ModLanguage.Chinese, "一个能联通特定空间的背包。"}
             },
             dictDescription: new Dictionary<ModLanguage, string>() {
-                {ModLanguage.English, "L'Owcrey fixes the magical ritual on the backpack as you requested and links it to your caravan stash.##Opening the magical backpack is equivalent to opening the caravan stash."},
-                {ModLanguage.Chinese, "埃欧科里按照你的要求在背包上将魔法仪式固定下来，并与你的大篷车货堆联通。##打开魔法背包等同于打开大篷车货堆。"}
+                {ModLanguage.English, "L'Owcrey fixes occult powers on the backpack and links it to your caravan stash as you requested.##Opening the Occult Backpack is equivalent to opening the caravan stash."},
+                {ModLanguage.Chinese, "埃欧科里按照你的要求在背包上将玄秘力量固定下来，并与你的大篷车货堆联通。##打开魔法背包等同于打开大篷车货堆。"}
             }
         );
 
@@ -238,6 +235,11 @@ public class SimpleBiggerBackpack : Mod
             new MslEvent("gml_Object_o_inv_magicbackpack_Other_24.gml", EventType.Other, 24)
         );
 
+        Msl.AddNewEvent("o_stash_inventory", ModFiles.GetCode(
+            "gml_Object_o_stash_inventory_Destroy_0.gml"), EventType.Destroy, 0);
+        Msl.AddNewEvent("o_stash_inventory", ModFiles.GetCode(
+            "gml_Object_o_stash_inventory_Step_0.gml"), EventType.Step, 0);
+
         Msl.LoadGML("gml_GlobalScript_table_log_text").Apply(ActionLogIterator).Save();
 
         // DELETE ME!
@@ -245,11 +247,12 @@ public class SimpleBiggerBackpack : Mod
             .MatchAll()
             .InsertBelow(@"with (o_inventory)
 {
+    scr_delete_item(o_inv_masterpiecebackpack)
     scr_inventory_add_item(o_inv_magicbackpack)
-    scr_inventory_add_item(o_inv_masterpiecebackpack)
 }")
             .Save();
 
+        // Create the corresponding loot object of magic backpack
         UndertaleGameObject o_loot_magicbackpack = Msl.AddObject(
             name: "o_loot_magicbackpack",
             spriteName: "s_loot_travellersbackpack", 
@@ -261,12 +264,6 @@ public class SimpleBiggerBackpack : Mod
         o_loot_magicbackpack.ApplyEvent(ModFiles, 
             new MslEvent("gml_Object_o_loot_magicbackpack_Create_0.gml", EventType.Create, 0)
         );
-
-        // Add backpacks to the goods of the Osbrook tailor
-        //Msl.LoadGML("gml_Object_o_npc_tailor_Create_0")
-        //    .MatchFrom("ds_list_add(selling_loot_object, 2689, 2.5, 2926, 2.5, 2931, 2.5, 3088, 2.5)")
-        //    .InsertBelow("ds_list_add(selling_loot_object, 2936, 2.5)") // backpack: inv_object = 2936
-        //    .Save();
 
         // Init the mini quest of backpack making (only works in a new game save)
         Msl.LoadGML("gml_GlobalScript_scr_init_quests")
@@ -390,6 +387,7 @@ public class SimpleBiggerBackpack : Mod
         string openMagicBackpackInvalid = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
 
         string searchBackpack = "searchBackpack;~w~$~/~ обыскивает контейнер ($).;~w~$~/~ searches the $.;~w~$~/~翻了翻$。;~w~$~/~ durchsucht $.;~w~$~/~ revisa: $.;~w~$~/~ fouille $.;~w~$~/~ perquisisce $.;~w~$~/~ vasculha $.;~w~$~/~ przeszukuje $.;~w~$~/~ araştırdı: $.;~w~$~/~ は $ を調べた;~w~$~/~이(가) $을(를) 뒤졌다.;";
+        string mslLog = "mslLog;" + string.Concat(Enumerable.Repeat("$;", 12));
 
         string logtextend = "\";" + string.Concat(Enumerable.Repeat("text_end;", 12)) + "\"";
 
@@ -398,7 +396,7 @@ public class SimpleBiggerBackpack : Mod
             if(item.Contains(logtextend))
             {
                 string newItem = item;
-                newItem = newItem.Insert(newItem.IndexOf(logtextend), $"\"{openMagicBackpackInvalid}\",\"{searchBackpack}\",");
+                newItem = newItem.Insert(newItem.IndexOf(logtextend), $"\"{openMagicBackpackInvalid}\",\"{searchBackpack}\",\"{mslLog}\",");
                 yield return newItem;
             }
             else
