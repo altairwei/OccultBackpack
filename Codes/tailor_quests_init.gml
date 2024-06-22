@@ -1,0 +1,1 @@
+scr_quest_init("makeBackpackOrmond", "", ["makeBackpackOrmond_find", 1, "makeBackpackOrmond_desc", [], "makeBackpackOrmond_reward", 1, "makeBackpackOrmond_reward_desc", []])

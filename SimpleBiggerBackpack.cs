@@ -268,7 +268,7 @@ public class SimpleBiggerBackpack : Mod
         // Init the mini quest of backpack making (only works in a new game save)
         Msl.LoadGML("gml_GlobalScript_scr_init_quests")
             .MatchFrom("scr_quest_init(\"fetchOrmond\", \"\", [\"fetchOrmond_find\", 1, \"fetchOrmond_desc\", []])")
-            .InsertBelow("scr_quest_init(\"makeBackpackOrmond\", \"\", [\"makeBackpackOrmond_find\", 1, \"makeBackpackOrmond_desc\", []])")
+            .InsertBelow(ModFiles, "tailor_quests_init.gml")
             .Save();
         
         // Add quest name and description
@@ -330,8 +330,22 @@ public class SimpleBiggerBackpack : Mod
             new LocalizationSentence(
                 "tailor_making_backpack",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "OK, backpacks will be ready for you in a minute."},
-                    {ModLanguage.Chinese, "行，马上就为你做好背包。"}
+                    {ModLanguage.English, "Get them out so I can see them.#Pelt... Cloth... And a spool of thread... All materials are ready!#Okay, but this backpack is going to take a bit of work to make, so you can come back to me tomorrow."},
+                    {ModLanguage.Chinese, "拿出来让我看看。#皮毛...布料...还有一卷毛线...材料齐全了！#行吧，但这个背包还要费点功夫来做，你明天再来找我吧。"}
+                }
+            ),
+            new LocalizationSentence(
+                "backpack_claim",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "Is my backpack done?"},
+                    {ModLanguage.Chinese, "我的背包做好了吗？"}
+                }
+            ),
+            new LocalizationSentence(
+                "tailor_backpack_reward",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "Done! There you go."},
+                    {ModLanguage.Chinese, "做好了！给你。"}
                 }
             )
         );
@@ -362,6 +376,16 @@ public class SimpleBiggerBackpack : Mod
         text_zh = @"奥斯布鲁克的裁缝霍特不卖背包，但愿意帮我制作一个新的。他让我给他弄一张毛皮、一卷亚麻布和一轴毛线，再加上五十冠的手工费。";
         string makeBackpackOrmond_desc = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
 
+        id = "makeBackpackOrmond_reward";
+        text_en = "Claim Your Backpack";
+        text_zh = "领取背包";
+        string makeBackpackOrmond_reward = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+
+        id = "makeBackpackOrmond_reward_desc";
+        text_en = "Hold, the tailor, says it takes quite a bit of work to make a fine backpack, and he's asked me to come back this time tomorrow to pick it up.";
+        text_zh = "裁缝霍特说制作一个精良的背包需要花费不少功夫，他让我明天的这个时候再来取。";
+        string makeBackpackOrmond_reward_desc = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+
         string questend = "\";" + string.Concat(Enumerable.Repeat("text_end;", 12)) + "\"";
 
         foreach(string item in input)
@@ -369,7 +393,7 @@ public class SimpleBiggerBackpack : Mod
             if(item.Contains(questend))
             {
                 string newItem = item;
-                newItem = newItem.Insert(newItem.IndexOf(questend), $"\"{makeBackpackOrmond}\",\"{makeBackpackOrmond_find}\",\"{makeBackpackOrmond_desc}\",");
+                newItem = newItem.Insert(newItem.IndexOf(questend), $"\"{makeBackpackOrmond}\",\"{makeBackpackOrmond_find}\",\"{makeBackpackOrmond_desc}\",\"{makeBackpackOrmond_reward}\",\"{makeBackpackOrmond_reward_desc}\",");
                 yield return newItem;
             }
             else

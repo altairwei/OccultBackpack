@@ -20,11 +20,8 @@ function scr_npc_tailor_backpack_reward() //gml_Script_scr_npc_tailor_backpack_r
         return _pelt_exists && scr_instance_exists_item(o_inv_cloth)
                     && scr_instance_exists_item(o_inv_thread) && (o_player.gold > 50)
     }
-    else
+    else if (argument_count == 2)
     {
-        with (scr_guiCreateContainer(global.guiBaseContainerVisible, o_reward_container))
-            scr_inventory_add_item(o_inv_masterpiecebackpack)
-
         var _pelt_found = noone
         for (var i = 0; i < array_length(pelt_acceptable); i++) {
             if (scr_instance_exists_item(pelt_acceptable[i])) {
@@ -39,5 +36,10 @@ function scr_npc_tailor_backpack_reward() //gml_Script_scr_npc_tailor_backpack_r
 
         scr_gold_write_off(50)
         scr_characterGoldSpend("spentDialogues", 50)
+    }
+    else
+    {
+        with (scr_guiCreateContainer(global.guiBaseContainerVisible, o_reward_container))
+            scr_inventory_add_item(o_inv_masterpiecebackpack)
     }
 }

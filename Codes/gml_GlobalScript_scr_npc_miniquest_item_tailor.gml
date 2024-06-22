@@ -44,6 +44,20 @@ function scr_npc_miniquest_item_tailor() //gml_Script_scr_npc_miniquest_item_tai
                     _action = ["Miniquest"]
                 }
             }
+
+            with (owner)
+            {
+                var _timestamp = scr_npc_get_global_info("backpack_timestamp")
+                var _daysPassed = scr_timeGetPassed(_timestamp, "days")
+            }
+            if (_daysPassed >= 0.5 && !scr_quest_get_progress("makeBackpackOrmond", "makeBackpackOrmond_reward"))
+            {
+                _temp = scr_add_answer_to_dialog("backpack_claim")
+                array_push(_answer, _temp[0])
+                array_push(_story_adress_array, 16)
+                _action = ["Miniquest"]
+            }
+
             break
         case 2:
             story_text = "ormond_miniquest"
@@ -110,16 +124,47 @@ function scr_npc_miniquest_item_tailor() //gml_Script_scr_npc_miniquest_item_tai
                 event_user_number = 9
             event_user_number = 9
             return;
+
         case 12:
             story_text = "tailor_making_backpack"
+            _answer = scr_add_answer_to_dialog("miniquest_accept", "miniquest_reject")
+            _story_adress_array = [13, 14]
+            break
+        case 13:
+            story_text = ""
+            scr_npc_tailor_backpack_reward(true, true)
+            scr_quest_set_progress("makeBackpackOrmond", "makeBackpackOrmond_find", 1)
+            scr_quest_set_progress("makeBackpackOrmond", "makeBackpackOrmond_reward", 0)
+            with (owner)
+            {
+                var _timestamp = scr_timeGetTimestamp()
+                scr_npc_set_global_info("backpack_timestamp", _timestamp)
+            }
+            _story_adress_array = [1]
+            scr_back_to_hub()
+            return;
+        case 14:
+            story_text = ""
+            _story_adress_array = [1]
+            scr_back_to_hub()
+            return;
+        case 15:
+            line_story = 1
+            event_user(9)
+            with (owner)
+                event_user_number = 9
+            event_user_number = 9
+            return;
+        case 16:
+            story_text = "tailor_backpack_reward"
             _answer = [scr_player_answer("back")]
             _story_adress_array = [1]
             _action = ["Back_to_Hub"]
-            scr_quest_set_progress("makeBackpackOrmond", "makeBackpackOrmond_find", 1)
+            scr_quest_set_progress("makeBackpackOrmond", "makeBackpackOrmond_reward", 1)
             scr_quest_set_complete("makeBackpackOrmond")
             event_user_number = 9
             reward_script = [gml_Script_scr_npc_tailor_backpack_reward]
-            break
+            break;
         default:
             line_story = 1
             event_user(9)
