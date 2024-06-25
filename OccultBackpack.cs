@@ -3,6 +3,7 @@
 // This file is part of the repository from .
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,19 +12,17 @@ using ModShardLauncher.Mods;
 using UndertaleModLib;
 using UndertaleModLib.Models;
 
-namespace SimpleBiggerBackpack;
-public class SimpleBiggerBackpack : Mod
+namespace OccultBackpack;
+public class OccultBackpack : Mod
 {
     public override string Author => "Altair";
-    public override string Name => "Simple Bigger Backpack";
-    public override string Description => "Now the tailor of Osbrook will sell a bigger backpack.";
-    public override string Version => "1.0.0";
+    public override string Name => "Occult Backpack";
+    public override string Description => "A new artifact, and the series of quests surrounding its creation.";
+    public override string Version => "2.0.0";
     public override string TargetVersion => "0.8.2.10";
 
     public override void PatchMod()
     {
-        Msl.AddFunction(ModFiles.GetCode("scr_msl_debug.gml"), "scr_msl_debug");
-
         // Create the container of Backpack
         UndertaleGameObject o_container_masterpiecebackpack = Msl.AddObject(
             name: "o_container_masterpiecebackpack",
@@ -240,7 +239,7 @@ public class SimpleBiggerBackpack : Mod
         Msl.AddNewEvent("o_stash_inventory", ModFiles.GetCode(
             "gml_Object_o_stash_inventory_Step_0.gml"), EventType.Step, 0);
 
-        Msl.LoadGML("gml_GlobalScript_table_log_text").Apply(ActionLogIterator).Save();
+        AddActionLogs();
 
         // DELETE ME!
         Msl.LoadGML("gml_Object_o_player_KeyPress_115")
@@ -272,12 +271,26 @@ public class SimpleBiggerBackpack : Mod
             .Save();
         
         // Add quest name and description
-        Msl.LoadGML("gml_GlobalScript_table_Quests_text").Apply(QeustIterator).Save();
+        AddQeusts();
 
         // Add dialogs to questions map
         Msl.LoadGML("gml_Object_o_npc_tailor_Alarm_1").MatchAll()
             .InsertBelow(ModFiles.GetCode("gml_Object_o_npc_tailor_Alarm_1.gml")).Save();
         // Add dialog texts
+        AddDialogs();
+
+        // Change dialog to add a mini quest
+        Msl.AddFunction(ModFiles.GetCode("gml_GlobalScript_scr_npc_tailor_backpack_reward.gml"), "scr_npc_tailor_backpack_reward");
+        Msl.LoadGML("gml_GlobalScript_scr_npc_miniquest_item_tailor")
+            .MatchAll()
+            .ReplaceBy(ModFiles.GetCode("gml_GlobalScript_scr_npc_miniquest_item_tailor.gml"))
+            .Save();
+
+        ExportTable("gml_GlobalScript_table_log_text");
+    }
+
+    private static void AddDialogs()
+    {
         Msl.InjectTableDialogLocalization(
             new LocalizationSentence(
                 "tailor_backpack_pc",
@@ -290,12 +303,12 @@ public class SimpleBiggerBackpack : Mod
                 "tailor_backpack_inquiry",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "A backpack? Ha ha ha ha. Who's going to buy a backpack when Osbrook is this big?",
+                        "A backpack? Ha ha. Who's going to buy a backpack when Osbrook is this big?",
                         "The war is so chaotic right now, no one dares to travel far, so even more so, no one would buy one. ",
                         "Aldor's traditional travelling backpacks are so big and bulky that they're not practical at all, and only those inexperienced rookies would buy them. I'm the one who won't make this rubbish."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "背包？哈哈哈哈。奥村就这么大点，谁会买背包啊？况且现在战争这么乱，谁也不敢出远门，更没人买了。",
+                        "背包？哈哈。奥村就这么大点，谁会买背包啊？况且现在战争这么乱，谁也不敢出远门，更没人买了。",
                         "奥尔多传统的旅行背包又大又笨重，根本不实用，只有那些没经验的菜鸟会买。我才会不会制作这种垃圾。"
                     })}
                 }
@@ -312,11 +325,13 @@ public class SimpleBiggerBackpack : Mod
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
                         "Since you've asked, I must demonstrate my ancestral craft. But at the moment I don't have the right materials on hand.",
-                        "This way, you find a pelt, a bolt of cloth, and a spool of thread. I'll only charge you 50 craft fee to make you a exquisite backpack."
+                        "This way, you find a pelt, a bolt of cloth, and a spool of thread. I'll only charge you 50 craft fee to make you a exquisite backpack.",
+                        "Remember, don't try my patience with rubbish pelts, like those of dogs, horses or rabbits..."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
                         "既然你都这么问了，我必须展示祖传的手艺了。但目前我手上没有合适的材料。",
-                        "这样，你找到一张动物毛皮，一卷布，以及一轴毛线。我只收你 50 冠手工费，给你制作一个精致的背包。"
+                        "这样，你找到一张动物毛皮，一卷布，以及一轴毛线。我只收你 50 冠手工费，给你制作一个精致的背包。",
+                        "记住，别用狗皮、马皮、兔皮这些垃圾来试探我的耐心。"
                     })}
                 }
             ),
@@ -347,86 +362,135 @@ public class SimpleBiggerBackpack : Mod
                     {ModLanguage.English, "Done! There you go."},
                     {ModLanguage.Chinese, "做好了！给你。"}
                 }
+            ),
+            // TODO: Refine me
+            new LocalizationSentence(
+                "masterpiecebackpack_is_good_pc",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "What a great backpack you have made!"},
+                    {ModLanguage.Chinese, "你制作的背包真是太好用了！"}
+                }
+            ),
+            new LocalizationSentence(
+                "magicbackpack_rumor",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "magicbackpack_rumor......."},
+                    {ModLanguage.Chinese, string.Join("#", new string[] {
+                        "是吗？你们这些人只有见到了真正的本事才会心服口服。",
+                        "不过我这背包算不了什么，有一次，我听卖皮毛的猎人聊起过一个神奇的物件。",
+                        "他在林子里狩猎时，远远地看见一个脸上涂满花纹的人从一个小小的手提旅行箱里拿出了一大堆东西。",
+                        "蒸锅、柴火、帐篷和铺盖卷。迅速地搭起了一个营地。他怀疑那个旅行箱被施了魔法。",
+                        "要是有了这个物件，你们这些雇佣兵永远不用担心战利品带不走了。"
+                    })}
+                }
+            ),
+            new LocalizationSentence(
+                "magicbackpack_rumor_accept",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "Wow! That's amazing and worth exploring!"},
+                    {ModLanguage.Chinese, "我靠！还有这种魔法，你快告诉去找谁给我背包施施法！"}
+                }
+            ),
+            new LocalizationSentence(
+                "magicbackpack_rumor_reject",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "I don't believe any of this bullshit from you at all."},
+                    {ModLanguage.Chinese, "我根本不相信你的这些鬼扯。"}
+                }
+            ),
+            new LocalizationSentence(
+                "magicbackpack_where_to_find",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "Wow! That's amazing and worth exploring!"},
+                    {ModLanguage.Chinese, string.Join("#", new string[] {
+                        "如果你对这神奇的物件真的感兴趣，我建议你去烂柳旅店打探下消息。",
+                        "你问烂柳旅店在哪？嗯...真是个好问题，我也没去过，只是听说在曼郡的北边。"
+                    })}
+                }
             )
         );
-
-        // Change dialog to add a mini quest
-        Msl.AddFunction(ModFiles.GetCode("gml_GlobalScript_scr_npc_tailor_backpack_reward.gml"), "scr_npc_tailor_backpack_reward");
-        Msl.LoadGML("gml_GlobalScript_scr_npc_miniquest_item_tailor")
-            .MatchAll()
-            .ReplaceBy(ModFiles.GetCode("gml_GlobalScript_scr_npc_miniquest_item_tailor.gml"))
-            .Save();
-
     }
 
-    private static IEnumerable<string> QeustIterator(IEnumerable<string> input)
+    private static void AddQeusts()
     {
+        List<string> stringList = new List<string>();
+
         string id = "makeBackpackOrmond";
         string text_en = @"Hold the Tailor's Backpack Making";
         string text_zh = @"裁缝霍特背包制作";
-        string makeBackpackOrmond = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
         id = "makeBackpackOrmond_find";
         text_en = @"Find a Pelt, a Bolt of Cloth, and a Spool of Thread";
         text_zh = @"寻找毛皮、亚麻布和毛线";
-        string makeBackpackOrmond_find = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
         id = "makeBackpackOrmond_desc";
         text_en = @"Hold the Tailor from Osbrook doesn't sell backpacks, but is willing to help me make a new one. He asked me to get him a pelt, a bolt of cloth, and a spool of thread, plus fifty crowns for the craft.";
         text_zh = @"奥斯布鲁克的裁缝霍特不卖背包，但愿意帮我制作一个新的。他让我给他弄一张毛皮、一卷亚麻布和一轴毛线，再加上五十冠的手工费。";
-        string makeBackpackOrmond_desc = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
         id = "makeBackpackOrmond_reward";
         text_en = "Claim Your Backpack";
         text_zh = "领取背包";
-        string makeBackpackOrmond_reward = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
         id = "makeBackpackOrmond_reward_desc";
         text_en = "Hold, the tailor, says it takes quite a bit of work to make a fine backpack, and he's asked me to come back this time tomorrow to pick it up.";
-        text_zh = "裁缝霍特说制作一个精良的背包需要花费不少功夫，他让我明天的这个时候再来取。";
-        string makeBackpackOrmond_reward_desc = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+        text_zh = "裁缝霍特说制作一个精良的背包需要花费不少功夫，他让我明天再来取。";
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
-        string questend = "\";" + string.Concat(Enumerable.Repeat("text_end;", 12)) + "\"";
+        id = "makeMagicBackpack";
+        text_en = "Legendary Backpack";
+        text_zh = "传说中的背包";
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
-        foreach(string item in input)
-        {
-            if(item.Contains(questend))
-            {
-                string newItem = item;
-                newItem = newItem.Insert(newItem.IndexOf(questend), $"\"{makeBackpackOrmond}\",\"{makeBackpackOrmond_find}\",\"{makeBackpackOrmond_desc}\",\"{makeBackpackOrmond_reward}\",\"{makeBackpackOrmond_reward_desc}\",");
-                yield return newItem;
-            }
-            else
-            {
-                yield return item;
-            }
-        }
+        id = "makeMagicBackpack_rotten_willow";
+        text_en = "Go to the Rotten Willow Tavern and look for clues.";
+        text_zh = "去烂柳旅店寻找线索";
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
+
+        // TODO: Refine
+        id = "makeMagicBackpack_rotten_willow_desc";
+        text_en = "makeMagicBackpack_rotten_willow_desc.....";
+        text_zh = "裁缝告诉你一个传闻，有一种魔法背包，可以直接联通固定的房间，这样根本不怕东西放不下了。他告诉你可以去烂柳旅店打探下消息。";
+        stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
+
+        string questend = ";" + string.Concat(Enumerable.Repeat("text_end;", 12));
+
+        List<string> quest_table = ModLoader.GetTable("gml_GlobalScript_table_Quests_text");
+        quest_table.InsertRange(quest_table.IndexOf(questend), stringList);
+        ModLoader.SetTable(quest_table, "gml_GlobalScript_table_Quests_text");
     }
 
-    private static IEnumerable<string> ActionLogIterator(IEnumerable<string> input)
+    private static void AddActionLogs()
     {
+        List<string> logList = new List<string>();
         string id = "openMagicBackpackInvalid";
         string text_en = @"~w~$~/~ try to open $, but find that it doesn't work.";
         string text_zh = @"~w~$~/~尝试打开$，但发现不行。";
-        string openMagicBackpackInvalid = $"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9));
+        logList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
-        string searchBackpack = "searchBackpack;~w~$~/~ обыскивает контейнер ($).;~w~$~/~ searches the $.;~w~$~/~翻了翻$。;~w~$~/~ durchsucht $.;~w~$~/~ revisa: $.;~w~$~/~ fouille $.;~w~$~/~ perquisisce $.;~w~$~/~ vasculha $.;~w~$~/~ przeszukuje $.;~w~$~/~ araştırdı: $.;~w~$~/~ は $ を調べた;~w~$~/~이(가) $을(를) 뒤졌다.;";
-        string mslLog = "mslLog;" + string.Concat(Enumerable.Repeat("$;", 12));
+        logList.Add("searchBackpack;~w~$~/~ обыскивает контейнер ($).;~w~$~/~ searches the $.;~w~$~/~翻了翻$。;~w~$~/~ durchsucht $.;~w~$~/~ revisa: $.;~w~$~/~ fouille $.;~w~$~/~ perquisisce $.;~w~$~/~ vasculha $.;~w~$~/~ przeszukuje $.;~w~$~/~ araştırdı: $.;~w~$~/~ は $ を調べた;~w~$~/~이(가) $을(를) 뒤졌다.;");
 
-        string logtextend = "\";" + string.Concat(Enumerable.Repeat("text_end;", 12)) + "\"";
+        string logtextend = ";" + string.Concat(Enumerable.Repeat("text_end;", 12));
 
-        foreach(string item in input)
+        List<string> log_table = ModLoader.GetTable("gml_GlobalScript_table_log_text");
+        log_table.InsertRange(log_table.IndexOf(logtextend), logList);
+        ModLoader.SetTable(log_table, "gml_GlobalScript_table_log_text");
+    }
+
+    private static void ExportTable(string table)
+    {
+        DirectoryInfo dir = new("ModSources/OccultBackpack/tmp");
+        if (!dir.Exists) dir.Create();
+        List<string>? lines = ModLoader.GetTable(table);
+        if (lines != null)
         {
-            if(item.Contains(logtextend))
-            {
-                string newItem = item;
-                newItem = newItem.Insert(newItem.IndexOf(logtextend), $"\"{openMagicBackpackInvalid}\",\"{searchBackpack}\",\"{mslLog}\",");
-                yield return newItem;
-            }
-            else
-            {
-                yield return item;
-            }
+            File.WriteAllLines(
+                Path.Join(dir.FullName, Path.DirectorySeparatorChar.ToString(), table + ".tsv"),
+                lines.Select(x => string.Join('\t', x.Split(';')))
+            );
         }
     }
 }

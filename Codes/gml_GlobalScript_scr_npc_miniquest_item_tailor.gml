@@ -48,14 +48,34 @@ function scr_npc_miniquest_item_tailor() //gml_Script_scr_npc_miniquest_item_tai
             with (owner)
             {
                 var _timestamp = scr_npc_get_global_info("backpack_timestamp")
-                var _daysPassed = scr_timeGetPassed(_timestamp, "days")
+                var _hoursPassed = scr_timeGetPassed(_timestamp, "hours")
             }
-            if (_daysPassed >= 0.5 && !scr_quest_get_progress("makeBackpackOrmond", "makeBackpackOrmond_reward"))
+            if (_timestamp && _hoursPassed >= 6 && !scr_quest_get_progress("makeBackpackOrmond", "makeBackpackOrmond_reward")
+                    && scr_quest_get_progress("makeBackpackOrmond", "makeBackpackOrmond_find"))
             {
                 _temp = scr_add_answer_to_dialog("backpack_claim")
                 array_push(_answer, _temp[0])
                 array_push(_story_adress_array, 16)
                 _action = ["Miniquest"]
+            }
+
+            if (scr_quest_get_complete("makeBackpackOrmond") && scr_quest_get_progress("makeMagicBackpack", "makeMagicBackpack_rotten_willow") < 0)
+            {
+                with (o_inv_slot)
+                {
+                    if equipped
+                    {
+                        if (ds_map_find_value(data, "idName") == "masterpiecebackpack")
+                        {
+                            with (other) {
+                                _temp = scr_add_answer_to_dialog("masterpiecebackpack_is_good_pc")
+                                array_push(_answer, _temp[0])
+                                array_push(_story_adress_array, 17)
+                                _action = ["Miniquest"]
+                            }
+                        }
+                    }
+                }
             }
 
             break
@@ -165,6 +185,31 @@ function scr_npc_miniquest_item_tailor() //gml_Script_scr_npc_miniquest_item_tai
             event_user_number = 9
             reward_script = [gml_Script_scr_npc_tailor_backpack_reward]
             break;
+
+        // Quest of Magic Backpack
+        case 17:
+            story_text = "magicbackpack_rumor"
+            _answer = scr_add_answer_to_dialog("magicbackpack_rumor_accept", "magicbackpack_rumor_reject")
+            _story_adress_array = [18, 19]
+            break
+        case 18:
+            story_text = ""
+            scr_quest_set_progress("makeMagicBackpack", "makeMagicBackpack_rotten_willow", 0)
+            _story_adress_array = [1]
+            scr_back_to_hub()
+            return;
+        case 19:
+            story_text = ""
+            _story_adress_array = [1]
+            scr_back_to_hub()
+            return;
+        case 20:
+            line_story = 1
+            event_user(9)
+            with (owner)
+                event_user_number = 9
+            event_user_number = 9
+            return;
         default:
             line_story = 1
             event_user(9)
