@@ -193,17 +193,28 @@ function scr_npc_miniquest_item_tailor() //gml_Script_scr_npc_miniquest_item_tai
             _story_adress_array = [18, 19]
             break
         case 18:
-            story_text = ""
-            scr_quest_set_progress("makeMagicBackpack", "makeMagicBackpack_rotten_willow", 0)
-            _story_adress_array = [1]
-            scr_back_to_hub()
-            return;
+            story_text = "magicbackpack_where_to_find"
+            _answer = scr_add_answer_to_dialog("magicbackpack_where_is_rottenwillow_pc")
+            _story_adress_array = [20]
+            break;
         case 19:
             story_text = ""
             _story_adress_array = [1]
             scr_back_to_hub()
             return;
         case 20:
+            story_text = "magicbackpack_where_is_rottenwillow"
+            _answer = scr_add_answer_to_dialog("miniquest_accept")
+            _story_adress_array = [21]
+            break;
+        case 21:
+            story_text = ""
+            _story_adress_array = [1]
+            scr_quest_start("makeMagicBackpack")
+            scr_quest_set_progress("makeMagicBackpack", "makeMagicBackpack_rotten_willow", 0)
+            scr_back_to_hub()
+            return;
+        case 22:
             line_story = 1
             event_user(9)
             with (owner)
