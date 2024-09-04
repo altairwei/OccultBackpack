@@ -26,7 +26,8 @@ if (ds_list_size(list) == 0 && (!__is_undefined(_pregen_loot_list)))
 }
 else
 {
-    if (owner.object_index != o_trade_inventory && owner.object_index != o_stash_inventory)
+    // Backpack must in your inventory, and no other opened container (otherwise will cause bug)
+    if (owner.object_index != o_trade_inventory && owner.object_index != o_stash_inventory && !instance_exists(o_container_parent))
     {
         if (!is_open)
         {
