@@ -56,13 +56,13 @@ public class Localization
                 "tailor_backpack_inquiry",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "A backpack? Ha ha. Who's going to buy a backpack when Osbrook is this big?",
-                        "The war is so chaotic right now, no one dares to travel far, so even more so, no one would buy one. ",
-                        "Aldor's traditional travelling backpacks are so big and bulky that they're not practical at all, and only those inexperienced rookies would buy them. I'm the one who won't make this rubbish."
+                        "A backpack? Ha! Who needs a backpack in a place as small as Osbrook?",
+                        "With the war raging, who even dares to travel far, let alone buy one? ",
+                        "Aldor's traditional travel backpacks are big and clunky, utterly impractical. Only greenhorns buy those. I certainly wouldn't waste my skills making such rubbish."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "背包？哈哈。奥村就这么大点，谁会买背包啊？况且现在战争这么乱，谁也不敢出远门，更没人买了。",
-                        "奥尔多传统的旅行背包又大又笨重，根本不实用，只有那些没经验的菜鸟会买。我才会不会制作这种垃圾。"
+                        "背包？哈！奥斯布鲁克就这么个巴掌大的地方，谁会买背包？现在战乱成这样，谁还敢走远路？更没人会买了。",
+                        "奥尔多传统的旅行背包又大又笨重，一点不实用，也就那些没经验的菜鸟才会买。我可不屑做这种垃圾。"
                     })}
                 }
             ),
@@ -77,14 +77,14 @@ public class Localization
                 "tailor_backpack_quest",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "Since you've asked, I must demonstrate my ancestral craft. But at the moment I don't have the right materials on hand.",
-                        "This way, you find a pelt, a bolt of cloth, and a spool of thread. I'll only charge you 50 craft fee to make you a exquisite backpack.",
-                        "Remember, don't try my patience with rubbish pelts, like those of dogs, horses or rabbits..."
+                        "Since you asked, I guess I have to show off my ancestral craft. But right now, I'm short on the right materials.",
+                        "Here's the deal: bring me a good pelt, a bolt of cloth, and a spool of thread. I'll charge you just 50 crowns to make you a fine backpack.",
+                        "And remember, don't try my patience with useless pelts like dog, horse, or rabbit skins."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "既然你都这么问了，我必须展示祖传的手艺了。但目前我手上没有合适的材料。",
-                        "这样，你找到一张动物毛皮，一卷布，以及一轴毛线。我只收你 50 冠手工费，给你制作一个精致的背包。",
-                        "记住，别用狗皮、马皮、兔皮这些垃圾来试探我的耐心。"
+                        "既然你都开口了，那我也只能展示一下祖传的手艺了。不过眼下我手头缺合适的材料。",
+                        "这样吧，你去找一张好的兽皮，一卷布料，再带一轴毛线。我只收你 50 冠手工费，给你做个精致的背包。",
+                        "记住，别拿狗皮、马皮、兔皮这些垃圾来糊弄我。"
                     })}
                 }
             ),
@@ -98,8 +98,8 @@ public class Localization
             new LocalizationSentence(
                 "tailor_making_backpack",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "Get them out so I can see them.#Pelt... Cloth... And a spool of thread... All materials are ready!#Okay, but this backpack is going to take a bit of work to make, so you can come back to me tomorrow."},
-                    {ModLanguage.Chinese, "拿出来让我看看。#皮毛...布料...还有一卷毛线...材料齐全了！#行吧，但这个背包还要费点功夫来做，你明天再来找我吧。"}
+                    {ModLanguage.English, "Let's see what you've got.#Pelt... Cloth... A spool of thread... Looks like everything's here!#Alright, but making this backpack will take some time. Come back tomorrow."},
+                    {ModLanguage.Chinese, "拿出来让我瞧瞧。#皮毛……布料……还有一轴毛线……材料齐全了！#好吧，不过做这个背包得费点功夫，明天再来取吧。"}
                 }
             ),
             new LocalizationSentence(
@@ -112,7 +112,7 @@ public class Localization
             new LocalizationSentence(
                 "tailor_backpack_reward",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "Done! There you go."},
+                    {ModLanguage.English, "All done! Here you go."},
                     {ModLanguage.Chinese, "做好了！给你。"}
                 }
             ),
@@ -128,18 +128,18 @@ public class Localization
                 "magicbackpack_rumor",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "Really? You people will only be convinced when you see what I can really do.",
-                        "But my backpack is nothing, once I heard a hunter selling pelts talk about a magical object.",
-                        "He was hunting in the woods when he saw from a distance a man with a painted face pulling a whole bunch of stuff out of a tiny hand-held travelling case.",
-                        "Pots, firewood, tents and bunk beds, and quickly set up a camp. He suspected that the travelling case was enchanted.",
-                        "If you had this object, you mercenaries would never have to worry about not being able to take your loot with you."
+                        "Oh really? You lot only believe what you can see with your own eyes.",
+                        "My backpack is nothing special. Once, I heard a hunter selling pelts talk about some kind of contraption.",
+                        "He was hunting in the woods when he spotted a man with a painted face pulling a whole bunch of stuff out of a tiny travel case.",
+                        "Pots, firewood, tents, even bunk beds—it all came out, and he set up camp in no time. He suspected the case was enchanted.",
+                        "If you had something like that, you mercenaries wouldn't need to worry about hauling your loot around."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "是吗？你们这些人只有见到了真正的本事才会心服口服。",
-                        "不过我这背包算不了什么，有一次，我听卖皮毛的猎人聊起过一个神奇的物件。",
-                        "他在林子里狩猎时，远远地看见一个脸上涂满花纹的人从一个小小的手提旅行箱里拿出了一大堆东西。",
-                        "锅、柴火、帐篷和铺盖卷，迅速地搭起了一个营地。他怀疑那个旅行箱被施了魔法。",
-                        "要是有了这个物件，你们这些雇佣兵永远不用担心战利品带不走了。"
+                        "是吗？你们这些人非得看见点真东西才信服。",
+                        "但我这背包不算什么。有次我听卖皮的猎人说起过一个神奇物件。",
+                        "他在林子里打猎时，远远看见一个满脸花纹的人从一个小小的手提箱里拿出了一大堆东西。",
+                        "锅碗、柴火、帐篷、铺盖卷，一下子就搭起了营地。他猜那箱子肯定是被施了魔法。",
+                        "要是你们雇佣兵有了那东西，就不愁战利品带不走了。"
                     })}
                 }
             ),
@@ -161,14 +161,14 @@ public class Localization
                 "magicbackpack_where_to_find",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "I don't know. I just heard about it.",
-                        "But you can ask around at the Rotten Willow Tavern.",
-                        "It's full of people from all walks of life, so you might be able to get some information."
+                        "I have no idea. I just heard the story.",
+                        "But you might try asking around at the Rotten Willow Tavern.",
+                        "That place is crawling with all kinds, so you might pick up some useful information."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "这我哪知道，我只是听说而已。",
-                        "不过你可以去烂柳旅店打听打听。",
-                        "那里三教九流鱼龙混杂，说不定能打听到一些消息。"
+                        "我怎么会知道，我也只是听说罢了。",
+                        "不过你可以去烂柳旅店打听。",
+                        "那里三教九流的人都有，兴许能问出点消息。"
                     })}
                 }
             ),
@@ -182,8 +182,8 @@ public class Localization
             new LocalizationSentence(
                 "magicbackpack_where_is_rottenwillow",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "It's a roadside tavern in the north of Mannshire, bring the map and I'll mark the rough spot for you."},
-                    {ModLanguage.Chinese, "那是一个位于曼郡的北边路边旅店，把地图拿来我给你标一下大概位置。"}
+                    {ModLanguage.English, "It's a roadside tavern north of Mannshire. Bring your map over, and I'll mark the general location for you."},
+                    {ModLanguage.Chinese, "那是一家位于曼郡北边的路边旅店。把地图拿来，我给你标一下大概的位置。"}
                 }
             ),
 
@@ -199,7 +199,7 @@ public class Localization
                 "magicbackpack_inquire_lowcrey",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, "What's up?"},
-                    {ModLanguage.Chinese, "什么事儿？"}
+                    {ModLanguage.Chinese, "敢问有何贵干？"}
                 }
             ),
             new LocalizationSentence(
@@ -219,15 +219,15 @@ public class Localization
             new LocalizationSentence(
                 "magicbackpack_inquire_lowcrey_2a",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "*looks you up and down*#Never heard of it, I don't know."},
-                    {ModLanguage.Chinese, "*上下打量了你一眼*#没听说过，我不知道。"}
+                    {ModLanguage.English, "*L'Owcrey glances you over, his eyes narrowing slightly*#Never heard of it, I don't know."},
+                    {ModLanguage.Chinese, "*埃欧科里上下打量了你一眼，眼神略显犀利*#没听说过，我不知道。"}
                 }
             ),
             new LocalizationSentence(
                 "magicbackpack_inquire_lowcrey_2b",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "Hmmm... Jonna... I'm sorry, I hadn't heard anyhting about this. #*His expression looks a little embarrassed*"},
-                    {ModLanguage.Chinese, "嗯...约娜...不好意思，我没有听说过这事。#*他的表情显得有点尴尬*"}
+                    {ModLanguage.English, "Hmmm... Jonna... I'm sorry, I hadn't heard anyhting about this. #*He frowns slightly, an unusual hint of embarrassment crossing his face*"},
+                    {ModLanguage.Chinese, "嗯...约娜...不好意思，我没有听说过这事。#*他皱了皱眉，脸上闪过一丝少见的尴尬*"}
                 }
             ),
 
@@ -235,22 +235,22 @@ public class Localization
             new LocalizationSentence(
                 "magicbackpack_materials_to_repair_lowcrey",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "I see you've been asking about this. To be honest, the main character in the rumour is me."},
-                    {ModLanguage.Chinese, "我看你一直在打听这件事儿。实话告诉你吧，传闻中的主角就是我。"}
+                    {ModLanguage.English, "I see you've been sniffing around. Well, let me put an end to the mystery: the main character in that rumor? That's me."},
+                    {ModLanguage.Chinese, "我看你一直在打听这事儿。好吧，我就给你个实话：传闻中的主角，正是在下。"}
                 }
             ),
             new LocalizationSentence(
                 "magicbackpack_materials_to_repair_lowcrey_pc",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "Wow, I didn't realise it was you!"},
-                    {ModLanguage.Chinese, "哇哦，没想到竟然是你！"}
+                    {ModLanguage.English, "I didn't realise it was you!"},
+                    {ModLanguage.Chinese, "没想到竟然是你！"}
                 }
             ),
             new LocalizationSentence(
                 "magicbackpack_materials_to_repair_lowcrey_2",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "That was a while ago now, and that contraption of mine had been damaged in the process."},
-                    {ModLanguage.Chinese, "但这是很久以前的事情了，我那个玩意儿已经在旅途中损坏了。"}
+                    {ModLanguage.English, "That was a long time ago, and let's just say, that little contraption of mine didn't survive the journey."},
+                    {ModLanguage.Chinese, "不过这事儿已经过去很久了，当年我那玩意儿也没能完好无损地熬过那次旅程。"}
                 }
             ),
             new LocalizationSentence(
@@ -263,8 +263,8 @@ public class Localization
             new LocalizationSentence(
                 "magicbackpack_materials_to_repair_lowcrey_3",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "You want it that badly? But why should I give it to you?"},
-                    {ModLanguage.Chinese, "不是？... ... 你就这么想要啊？可我为什么要给你呢？"}
+                    {ModLanguage.English, "So, you want it that badly, huh? But why on earth should I give it to you?"},
+                    {ModLanguage.Chinese, "哦？你就这么想要？不过我凭什么给你呢？"}
                 }
             ),
             new LocalizationSentence(
@@ -278,18 +278,18 @@ public class Localization
                 "magicbackpack_materials_to_repair_lowcrey_4",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "*There was a moment of silence, as if he had thought of something.*",
-                        "Maybe I'll actually have a use for you later.",
-                        "Well, that contraption could theoretically be fixed, but it's a pain in the arse and I'm short of materials.",
-                        "*Sighing helplessly*",
-                        "It requires a ruby, an emerald, and it also requires 1000 crowns for ritual materials."
+                        "*He pauses, his gaze drifting off as if contemplating something*",
+                        "Perhaps I might have some use for you yet.",
+                        "Theoretically, I could repair it, but it's a hassle, and I'm short on materials.",
+                        "*He sighs with feigned helplessness*",
+                        "It requires a ruby, an emerald, and 1000 crowns for ritual supplies."
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "*沉默了一会儿，像似想到了什么*",
-                        "也许我以后还真有用得上你地方。",
-                        "好吧，那玩意儿理论上可以修好，但很麻烦，而且我还缺乏材料。",
-                        "*无奈地叹了口气*",
-                        "需要一颗红宝石，一块祖母绿，而且还需要 1000 冠用来购买仪式材料。"
+                        "*埃欧科里沉默片刻，目光游离，仿佛在思索什么*",
+                        "说不定以后还能用得上你。",
+                        "那玩意儿理论上可以修好，不过麻烦得很，而且材料不足。",
+                        "*他故作无奈地叹了口气*",
+                        "需要一颗红宝石、一块祖母绿，还有1000冠用来买仪式材料。"
                     })}
                 }
             ),
@@ -313,14 +313,14 @@ public class Localization
                 "magicbackpack_ready_to_make_lowcrey",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "I didn't think you had it all together.",
-                        "I used to fix this occult spell to a suitcase.",
-                        "What container do you prefer?"
+                        "I didn't expect you to actually get everything.",
+                        "I used to attach this arcane enchantment to a suitcase.",
+                        "What kind of container suits your taste?"
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "没想到你还真凑齐了。",
-                        "我以前是将这玄秘术固定到了手提箱上。",
-                        "你喜欢什么容器？"
+                        "没想到你还真把东西凑齐了。",
+                        "我以前是把这玄秘法术固定在一个手提箱上。",
+                        "你喜欢用什么容器？"
                     })}
                 }
             ),
@@ -342,12 +342,12 @@ public class Localization
                 "magicbackpack_ready_to_make_lowcrey_2",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, string.Join("#", new string[] {
-                        "The travelling backpack looks exquisite, I think it's fine.",
-                        "But have you figured out what space to connect the backpack to?"
+                        "A traveling backpack, eh? Quite a refined choice, I'd say.",
+                        "But tell me, have you figured out where you want this backpack connected to?"
                     })},
                     {ModLanguage.Chinese, string.Join("#", new string[] {
-                        "这旅行背包看起来还精致的，我想没问题。",
-                        "可是你想好了将背包连接到什么地方了吗？"
+                        "旅行背包？倒也别致，我想没什么问题。",
+                        "不过你可想好了，这背包要连通到哪个空间？"
                     })}
                 }
             ),
@@ -368,8 +368,8 @@ public class Localization
             new LocalizationSentence(
                 "magicbackpack_ready_to_make_lowcrey_4",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "All right, I got it. You come back to me in two days."},
-                    {ModLanguage.Chinese, "行吧，我知道了，你两天后再来找我。"}
+                    {ModLanguage.English, "Alright, I've got it. Come back in two days."},
+                    {ModLanguage.Chinese, "行吧，我知道了，两天后再来找我。"}
                 }
             ),
 
@@ -384,7 +384,7 @@ public class Localization
                 "magicbackpack_ready_to_make_lowcrey_5",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, "It's done. Here you go."},
-                    {ModLanguage.Chinese, "做好了，给你。"}
+                    {ModLanguage.Chinese, "搞定了，拿去吧。"}
                 }
             ),
             new LocalizationSentence(
