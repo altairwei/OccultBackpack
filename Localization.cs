@@ -35,7 +35,7 @@ public class Localization
                     {ModLanguage.Chinese, "一个能联通特定空间的背包。"}
                 },
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "L'Owcrey fixes occult powers on the backpack and links it to your caravan stash as you requested.##Opening the Occult Backpack is equivalent to opening the caravan stash."},
+                    {ModLanguage.English, "l'Owcrey fixes occult powers on the backpack and links it to your caravan stash as you requested.##Opening the Occult Backpack is equivalent to opening the caravan stash."},
                     {ModLanguage.Chinese, "埃欧科里按照你的要求在背包上将玄秘力量固定下来，并与你的大篷车货堆联通。##打开魔法背包等同于打开大篷车货堆。"}
                 }
             )
@@ -187,7 +187,7 @@ public class Localization
                 }
             ),
 
-            // Inquire L'Owcrey about Occult Backpack
+            // Inquire l'Owcrey about Occult Backpack
             new LocalizationSentence(
                 "magicbackpack_inquire_lowcrey_pc",
                 new Dictionary<ModLanguage, string>() {
@@ -219,7 +219,7 @@ public class Localization
             new LocalizationSentence(
                 "magicbackpack_inquire_lowcrey_2a",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "*L'Owcrey glances you over, his eyes narrowing slightly*#Never heard of it, I don't know."},
+                    {ModLanguage.English, "*l'Owcrey glances you over, his eyes narrowing slightly*#Never heard of it, I don't know."},
                     {ModLanguage.Chinese, "*埃欧科里上下打量了你一眼，眼神略显犀利*#没听说过，我不知道。"}
                 }
             ),
@@ -354,7 +354,7 @@ public class Localization
             new LocalizationSentence(
                 "magicbackpack_ready_to_make_pc_3",
                 new Dictionary<ModLanguage, string>() {
-                    {ModLanguage.English, "I haven't thought about it yet."},
+                    {ModLanguage.English, "I don't have a place to stay yet, so I haven't thought about it yet."},
                     {ModLanguage.Chinese, "我现在居无定所，还没想好。"}
                 }
             ),
@@ -447,7 +447,7 @@ public class Localization
         stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
         id = "makeMagicBackpack_find_materials_desc";
-        text_en = "L'Owcrey ignores you at first, but as your reputation in the Rotten Willow grows, he reveals to you that the rumoured magical suitcase is none other than his, but it is broken. You promise him that if he can repair the magical suitcase and let you use it, you will owe him a great favour. L'Owcrey agrees, but asks that you provide the materials needed to repair the suitcase at your own expense, including a ruby, a piece of emerald, and the cost of 1000 crowns used to purchase the materials for the ritual.";
+        text_en = "l'Owcrey ignores you at first, but as your reputation in the Rotten Willow grows, he reveals to you that the rumoured magical suitcase is none other than his, but it is broken. You promise him that if he can repair the magical suitcase and let you use it, you will owe him a great favour. l'Owcrey agrees, but asks that you provide the materials needed to repair the suitcase at your own expense, including a ruby, an emerald, and the cost of 1000 crowns used to purchase the materials for the ritual.";
         text_zh = "埃欧科里起初并不理会你，但随着你在烂柳的声誉逐渐提升，他向你透露，那传闻中的神奇手提箱正是他的，不过已经损坏。你向他承诺，如果他能修好这神奇手提箱并让你使用，你将欠他一个大大的人情。埃欧科里同意了，但要求你自费提供修复手提箱所需的材料，包括一颗红宝石、一块祖母绿，以及用于购买仪式材料的1000冠费用。";
         stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
@@ -457,7 +457,7 @@ public class Localization
         stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
         id = "makeMagicBackpack_reward_desc";
-        text_en = "After much hardship, you finally managed to find a ruby and an emerald, scrimping and saving 1000 crowns from your contract rewards, and even offering the specially crafted backpack made by Osbrook’s tailor, Hold. L'Owcrey will need two days to transfer the occult rituals from the suitcase to your backpack, so now all you can do is wait patiently.";
+        text_en = "After much hardship, you finally managed to find a ruby and an emerald, scrimping and saving 1000 crowns from your contract rewards, and even offering the specially crafted backpack made by Osbrook’s tailor, Hold. l'Owcrey will need two days to transfer the occult rituals from the suitcase to your backpack, so now all you can do is wait patiently.";
         text_zh = "你历经艰辛，终于找到了红宝石和祖母绿，并从契据任务的报酬中省出1000冠，还搭上了奥斯布鲁克裁缝霍特为你精心制作的背包。埃欧科里需要两天时间将玄秘仪轨从手提箱转移到你的背包上，现在你只能耐心等待。";
         stringList.Add($"{id};{text_en};{text_en};{text_zh};" + string.Concat(Enumerable.Repeat($"{text_en};", 9)));
 
