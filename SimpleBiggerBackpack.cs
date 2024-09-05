@@ -13,7 +13,7 @@ public class SimpleBiggerBackpack : Mod
     public override string Author => "Altair Wei";
     public override string Name => "Simple Bigger Backpack";
     public override string Description => "Now the tailor of Osbrook will sell a bigger backpack.";
-    public override string Version => "1.0.0";
+    public override string Version => "1.0.1";
     public override string TargetVersion => "0.8.2.10";
 
     public override void PatchMod()
@@ -52,11 +52,17 @@ public class SimpleBiggerBackpack : Mod
             .MatchFrom("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 4)")
             .ReplaceBy("scr_inventory_add_cells(id, cellsContainer, cellsRowSize, 5)")
             .Save();
-        
+
+        // Compatibility with UI+
+        Msl.LoadGML("gml_Object_o_container_backpack_Other_10")
+            .MatchAll()
+            .InsertBelow(ModFiles, "compatibility_with_UI_plus.gml")
+            .Save();
+
         // Add backpacks to the goods of the Osbrook tailor
         Msl.LoadGML("gml_Object_o_npc_tailor_Create_0")
-            .MatchFrom("ds_list_add(selling_loot_object, 2689, 2.5, 2926, 2.5, 2931, 2.5, 3088, 2.5)")
-            .InsertBelow("ds_list_add(selling_loot_object, 2936, 2.5)") // backpack: inv_object = 2936
+            .MatchFrom(@"scr_buying_loot(""alcohol"", ""beverage"", ""food"", ""jewelry"", ""valuable"", ""armor"", ""material"", ""junk"", ""bag"")")
+            .InsertAbove("ds_list_add(selling_loot_object, o_inv_backpack, 2.5)")
             .Save();
     }
 }
