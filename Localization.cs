@@ -8,6 +8,8 @@ public class Localization
 {
     public static void ItemsPatching()
     {
+        /*
+        // For new MSL APIs
         Msl.InjectTableItemsLocalization(
             new LocalizationItem(
                 id: "masterpiecebackpack",
@@ -39,6 +41,39 @@ public class Localization
                     {ModLanguage.Chinese, "埃欧科里按照你的要求在背包上将玄秘力量固定下来，并与你的大篷车货堆联通。##打开魔法背包等同于打开大篷车货堆。"}
                 }
             )
+        );
+        */
+
+        Msl.InjectTableItemLocalization(
+            "masterpiecebackpack",
+            new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "Tailor's Backpack"},
+                {ModLanguage.Chinese, "裁缝的背包"}
+            },
+            new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "A exquisite backpack that's smaller and holds more stuff."},
+                {ModLanguage.Chinese, "一个更加小巧，但能装更多东西的背包。"}
+            },
+            new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "The masterpiece of the Osbrook tailor. While the style is similar to a traditional backpack, this one is more compact and can hold more."},
+                {ModLanguage.Chinese, "奥斯布鲁克裁缝的呕心沥血之作。虽然款式与传统背包差不多，但这个背包更加小巧，能装更多的东西。"}
+            }
+        );
+
+        Msl.InjectTableItemLocalization(
+            "magicbackpack",
+            new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "Occult Backpack"},
+                {ModLanguage.Chinese, "玄秘背包"}
+            },
+            new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "A backpack that connects to a specific space."},
+                {ModLanguage.Chinese, "一个能联通特定空间的背包。"}
+            },
+            new Dictionary<ModLanguage, string>() {
+                {ModLanguage.English, "L'Owcrey fixes occult powers on the backpack and links it to your caravan stash as you requested.##Opening the Occult Backpack is equivalent to opening the caravan stash."},
+                {ModLanguage.Chinese, "埃欧科里按照你的要求在背包上将玄秘力量固定下来，并与你的大篷车货堆联通。##打开魔法背包等同于打开大篷车货堆。"}
+            }
         );
     }
 

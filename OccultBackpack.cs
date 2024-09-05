@@ -18,7 +18,7 @@ public class OccultBackpack : Mod
     public override string Author => "Altair";
     public override string Name => "Occult Backpack";
     public override string Description => "A new artifact, and the series of quests surrounding its creation.";
-    public override string Version => "2.0.0";
+    public override string Version => "1.0.0";
     public override string TargetVersion => "0.8.2.10";
 
     public override void PatchMod()
