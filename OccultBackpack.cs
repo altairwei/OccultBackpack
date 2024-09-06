@@ -18,7 +18,7 @@ public class OccultBackpack : Mod
     public override string Author => "Altair";
     public override string Name => "Occult Backpack";
     public override string Description => "A new artifact, and the series of quests surrounding its creation.";
-    public override string Version => "1.0.0";
+    public override string Version => "1.0.1";
     public override string TargetVersion => "0.8.2.10";
 
     public override void PatchMod()
@@ -208,10 +208,12 @@ public class OccultBackpack : Mod
             "gml_Object_o_stash_inventory_Step_0.gml"), EventType.Step, 0);
 
         // DELETE ME!
+        /*
         Msl.LoadGML("gml_Object_o_player_KeyPress_115") // F4
             .MatchAll()
             .InsertBelow(ModFiles, "fix_old_save.gml")
             .Save();
+        */
 
         // Create the corresponding loot object of magic backpack
         UndertaleGameObject o_loot_magicbackpack = Msl.AddObject(
