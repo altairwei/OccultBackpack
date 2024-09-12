@@ -6,7 +6,7 @@ I created the **Simple Bigger Backpack** because there was no similar [ModShardL
 
 - The backpack only takes up 2x3 space in your inventory (the same to cloaks).
 - The backpack has 7x5 storage space.
-- The Tailor of Osbrook is now selling a backpack in a new game.
+- The merchant of Osbrook is now selling a backpack in a new game.
 
 ## Installation
 
