@@ -207,13 +207,17 @@ public class OccultBackpack : Mod
         Msl.AddNewEvent("o_stash_inventory", ModFiles.GetCode(
             "gml_Object_o_stash_inventory_Step_0.gml"), EventType.Step, 0);
 
-        // DELETE ME!
-        /*
-        Msl.LoadGML("gml_Object_o_player_KeyPress_115") // F4
+        Msl.AddMenu(
+            "Occult Backpack",
+            new UIComponent(
+                name: "Press F1 to fix backpack quests", associatedGlobal: "add_occult_backpack_quests",
+                UIComponentType.CheckBox, 0)
+        );
+
+        Msl.LoadGML("gml_Object_o_player_KeyPress_112") // F1
             .MatchAll()
             .InsertBelow(ModFiles, "fix_old_save.gml")
             .Save();
-        */
 
         // Create the corresponding loot object of magic backpack
         UndertaleGameObject o_loot_magicbackpack = Msl.AddObject(
@@ -247,6 +251,11 @@ public class OccultBackpack : Mod
 
         // Add function for Occult Backpack quests
         DialogFunctions.LowcreyDialogFunctionsPatching();
+
+        Msl.LoadGML("gml_Object_o_npc_enchanter_Create_0")
+            .MatchFrom(@"dialog_id = de2_dialog_open(""willowinn_enchanter.de2"")")
+            .ReplaceBy(@"dialog_id = de2_dialog_open(""occult_backpack_lowcrey.de2"")")
+            .Save();
 
         // Add localization
         Localization.ItemsPatching();

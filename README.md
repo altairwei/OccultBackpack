@@ -30,6 +30,5 @@ This is a **Stoneshard** mod, offering two types of backpacks, two quests to mak
 8. Click on the **folder icon** at the top and select `vanilla.win`.
 9. Toggle **Occult Backpack** in the Mods tab.
 10. Click on the '**save**' **icon** at the top and save under the name `data.win`.
-11. Rename `willowinn_enchanter.de2` in `Stoneshard/dialogs` folder to `willowinn_enchanter.de2.backup`.
-12. Move the `willowinn_enchanter.de2` file of `OccultBackpack.zip` to the `Stoneshard/dialogs` folder.
-13. Start your game.
+11. Move the `occult_backpack_lowcrey.de2` file of `OccultBackpack.zip` to the `Stoneshard/dialogs` folder.
+12. Start your game.
