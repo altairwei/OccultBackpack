@@ -47,6 +47,16 @@ public class DialogFunctions
 }");
 
         Msl.AddFunction(
+            name: "scr_occultbackpack_lowcreyCheckRottenWillowReputationHighFirstInquiry",
+            codeAsString: @"function scr_occultbackpack_lowcreyCheckRottenWillowReputationHighFirstInquiry()
+{
+    var _reputation = 0
+    with (o_npc_enchanter)
+        _reputation = scr_globaltile_get(""reputation"", village_xy[0], village_xy[1])
+    return _reputation >= 3000 && scr_dialogue_uncomplete(""magicbackpack_inquire_lowcrey_pc_2a"")
+}");
+
+        Msl.AddFunction(
             name: "scr_occultbackpack_lowcreyFindMaterialsForRepair",
             codeAsString: @"function scr_occultbackpack_lowcreyFindMaterialsForRepair()
 {

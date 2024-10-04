@@ -275,6 +275,13 @@ public class Localization
                 }
             ),
             new LocalizationSentence(
+                "magicbackpack_materials_to_repair_lowcrey_b",
+                new Dictionary<ModLanguage, string>() {
+                    {ModLanguage.English, "I'm surprised you heard about this! Well, let me put an end to the mystery: the main character in that rumor? That's me."},
+                    {ModLanguage.Chinese, "你竟然听说了这事儿！好吧，我就给你个实话：传闻中的主角，正是在下。"}
+                }
+            ),
+            new LocalizationSentence(
                 "magicbackpack_materials_to_repair_lowcrey_pc",
                 new Dictionary<ModLanguage, string>() {
                     {ModLanguage.English, "I didn't realise it was you!"},
